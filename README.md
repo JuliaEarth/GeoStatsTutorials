@@ -8,8 +8,14 @@ Tutorials in the form of Jupyter notebooks for the [GeoStats.jl](https://github.
 
 The notebooks are better viewed on nbviewer:
 
-- [Notebook 1]()
-- [Notebook 2]()
+- [Estimation problems](notebooks/EstimationProblems.ipynb)
+- [Variogram modeling](notebooks/VariogramModeling.ipynb)
+- [Anisotropic models](notebooks/AnisotropicModels.ipynb)
+- [Gaussian processes](notebooks/GaussianProcesses.ipynb)
+- [Image quilting](notebooks/ImageQuilting.ipynb)
+- [Parallel simulation](notebooks/ParallelSimulation.ipynb)
+- [Cookie-cutter](notebooks/CookieCutter.ipynb)
+- [Solver comparison](notebooks/SolverComparison.ipynb)
 
 ## Contributing
 
