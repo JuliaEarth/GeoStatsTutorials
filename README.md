@@ -8,14 +8,14 @@ Tutorials in the form of Jupyter notebooks for the [GeoStats.jl](https://github.
 
 The notebooks are better viewed on nbviewer:
 
-- [Estimation problems](notebooks/EstimationProblems.ipynb)
-- [Variogram modeling](notebooks/VariogramModeling.ipynb)
-- [Anisotropic models](notebooks/AnisotropicModels.ipynb)
-- [Gaussian processes](notebooks/GaussianProcesses.ipynb)
-- [Image quilting](notebooks/ImageQuilting.ipynb)
-- [Parallel simulation](notebooks/ParallelSimulation.ipynb)
-- [Cookie-cutter](notebooks/CookieCutter.ipynb)
-- [Solver comparison](notebooks/SolverComparison.ipynb)
+- [Estimation problems](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/EstimationProblems.ipynb)
+- [Variogram modeling](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/VariogramModeling.ipynb)
+- [Anisotropic models](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/AnisotropicModels.ipynb)
+- [Gaussian processes](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/GaussianProcesses.ipynb)
+- [Image quilting](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ImageQuilting.ipynb)
+- [Parallel simulation](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ParallelSimulation.ipynb)
+- [Cookie-cutter](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/CookieCutter.ipynb)
+- [Solver comparison](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/SolverComparison.ipynb)
 
 ## Contributing
 
