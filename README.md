@@ -6,6 +6,11 @@ Tutorials in the form of Jupyter notebooks for the [GeoStats.jl](https://github.
 
 ## Notebooks
 
+The notebooks are better viewed on nbviewer:
+
+- [Notebook 1]()
+- [Notebook 2]()
+
 ## Contributing
 
 Please let us know if any of the notebooks is outdated or not functioning with the current release of GeoStats.jl.
