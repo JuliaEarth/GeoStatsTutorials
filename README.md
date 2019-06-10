@@ -12,6 +12,7 @@ The notebooks are better viewed on nbviewer:
 - [Variogram modeling](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/VariogramModeling.ipynb)
 - [Anisotropic models](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/AnisotropicModels.ipynb)
 - [Directional variograms](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/DirectionalVariograms.ipynb)
+- [Declustered statistics](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/DeclusteredStatistics.ipynb)
 - [Gaussian processes](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/GaussianProcesses.ipynb)
 - [Image quilting](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ImageQuilting.ipynb)
 - [Parallel simulation](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ParallelSimulation.ipynb)
