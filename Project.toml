@@ -1,0 +1,4 @@
+[deps]
+GeoStats = "dcc97b0b-8ce5-5539-9008-bb190f959ef6"
+GeoStatsImages = "7cd16168-b42c-5e7d-a585-4f59d326662d"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
