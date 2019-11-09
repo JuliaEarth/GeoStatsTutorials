@@ -17,7 +17,6 @@ The notebooks are better viewed on nbviewer:
 - [Image quilting](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ImageQuilting.ipynb)
 - [Parallel simulation](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ParallelSimulation.ipynb)
 - [Cookie-cutter](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/CookieCutter.ipynb)
-- [Solver comparison](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/SolverComparison.ipynb)
 
 ## Contributing
 
