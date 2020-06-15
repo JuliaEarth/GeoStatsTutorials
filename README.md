@@ -1,7 +1,7 @@
 # GeoStatsTutorials
 
 [![gitter](https://img.shields.io/badge/chat-on%20gitter-bc0067.svg)](https://gitter.im/JuliaEarth/GeoStats.jl)
-[![nbviewer](https://github.com/jupyter/design/blob/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/JuliaEarth/GeoStats.jl)
+[![nbviewer](https://github.com/jupyter/design/blob/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/JuliaEarth/GeoStatsTutorials)
 
 Tutorials in the form of Jupyter notebooks for the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework.
 
