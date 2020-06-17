@@ -157,12 +157,6 @@ git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
 uuid = "ed09eef8-17a6-5b46-8889-db040fac31e3"
 version = "0.3.2"
 
-[[Conda]]
-deps = ["JSON", "VersionParsing"]
-git-tree-sha1 = "7a58bb32ce5d85f8bf7559aa7c2842f9aecf52fc"
-uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.4.1"
-
 [[Contour]]
 deps = ["StaticArrays"]
 git-tree-sha1 = "0b17db36e7e03f8437e0d1f55aea3e4a60c74353"
@@ -524,11 +518,6 @@ git-tree-sha1 = "221cc8998b9060677448cbb6375f00032554c4fd"
 uuid = "c1c5ebd0-6772-5130-a774-d5fcae4a789d"
 version = "3.100.0+1"
 
-[[LaTeXStrings]]
-git-tree-sha1 = "de44b395389b84fd681394d4e8d39ef14e3a2ea8"
-uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-version = "1.1.0"
-
 [[LearnBase]]
 git-tree-sha1 = "a0d90569edd490b82fdc4dc078ea54a5a800d30a"
 uuid = "7f8f8fb0-2700-5f03-b4bd-41f8cfc144b6"
@@ -803,18 +792,6 @@ git-tree-sha1 = "3e1784c27847bba115815d4d4e668b99873985e5"
 uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
 version = "1.3.1"
 
-[[PyCall]]
-deps = ["Conda", "Dates", "Libdl", "LinearAlgebra", "MacroTools", "Serialization", "VersionParsing"]
-git-tree-sha1 = "3a3fdb9000d35958c9ba2323ca7c4958901f115d"
-uuid = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
-version = "1.91.4"
-
-[[PyPlot]]
-deps = ["Colors", "LaTeXStrings", "PyCall", "Sockets", "Test", "VersionParsing"]
-git-tree-sha1 = "67dde2482fe1a72ef62ed93f8c239f947638e5a2"
-uuid = "d330b81b-6aea-500a-939a-2ce795aea3ee"
-version = "2.9.0"
-
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
 git-tree-sha1 = "dc84e810393cfc6294248c9032a9cdacc14a3db4"
@@ -992,11 +969,6 @@ deps = ["Distances", "GeoStatsBase", "InteractiveUtils", "Optim", "Parameters", 
 git-tree-sha1 = "c2939bcc1b03e1fdea15d50db0cc264b81a42f26"
 uuid = "04a0146e-e6df-5636-8d7f-62fa9eb0b20c"
 version = "0.5.10"
-
-[[VersionParsing]]
-git-tree-sha1 = "80229be1f670524750d905f8fc8148e5a8c4537f"
-uuid = "81def892-9a0e-5fdd-b105-ffc91e053289"
-version = "1.2.0"
 
 [[WeakRefStrings]]
 deps = ["DataAPI", "Random", "Test"]
