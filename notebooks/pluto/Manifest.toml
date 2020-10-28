@@ -229,6 +229,12 @@ git-tree-sha1 = "f10c3009373a2d5c4349b8a2932d8accb892892d"
 uuid = "f5851436-0d7a-5f13-b9de-f02708fd171a"
 version = "3.3.9+6"
 
+[[FileIO]]
+deps = ["Pkg"]
+git-tree-sha1 = "cad2e71389ecb2f4480e0de74faab04af13d7929"
+uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+version = "1.4.4"
+
 [[FillArrays]]
 deps = ["LinearAlgebra", "Random", "SparseArrays"]
 git-tree-sha1 = "502b3de6039d5b78c76118423858d981349f3823"
@@ -305,6 +311,12 @@ git-tree-sha1 = "12b7500952e2348784910781e2e285af8de8c93d"
 uuid = "323cb8eb-fbf6-51c0-afd0-f8fba70507b2"
 version = "0.14.1"
 
+[[GeoStatsImages]]
+deps = ["FileIO", "GslibIO"]
+git-tree-sha1 = "fa4cad082c42ed27c5ccb7040136fcf25b66b701"
+uuid = "7cd16168-b42c-5e7d-a585-4f59d326662d"
+version = "0.5.0"
+
 [[GeometryBasics]]
 deps = ["EarCut_jll", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
 git-tree-sha1 = "876a906eab3be990fdcbfe1e43bb3a76f4776f72"
@@ -321,6 +333,12 @@ version = "0.8.3"
 git-tree-sha1 = "03d381f65183cb2d0af8b3425fde97263ce9a995"
 uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.0"
+
+[[GslibIO]]
+deps = ["DelimitedFiles", "FileIO", "GeoStatsBase", "Printf"]
+git-tree-sha1 = "7db2e9d5ac314010f925be345bfb6d8e38f2526d"
+uuid = "4610876b-9b01-57c8-9ad9-06315f1a66a5"
+version = "0.5.3"
 
 [[HTTP]]
 deps = ["Base64", "Dates", "IniFile", "MbedTLS", "Sockets"]
@@ -594,6 +612,12 @@ git-tree-sha1 = "2278b10271e20b0af503acf3ccb87330fa7cb5db"
 uuid = "c3e4b0f8-55cb-11ea-2926-15256bba5781"
 version = "0.12.4"
 
+[[PlutoUI]]
+deps = ["Base64", "Dates", "Logging", "Markdown", "Random", "Suppressor"]
+git-tree-sha1 = "88315ac9b8d684b5e66377942de3e692a376b9b1"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.6.8"
+
 [[PointPatterns]]
 deps = ["Distributions", "GeoStatsBase", "RecipesBase"]
 git-tree-sha1 = "16e1847cc4aca546809602020b47c82089a76bf1"
@@ -772,6 +796,11 @@ version = "1.1.0"
 [[SuiteSparse]]
 deps = ["Libdl", "LinearAlgebra", "Serialization", "SparseArrays"]
 uuid = "4607b0f0-06f3-5cda-b6b1-a6196a1729e9"
+
+[[Suppressor]]
+git-tree-sha1 = "a819d77f31f83e5792a76081eee1ea6342ab8787"
+uuid = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
+version = "0.2.0"
 
 [[TableTraits]]
 deps = ["IteratorInterfaceExtensions"]
