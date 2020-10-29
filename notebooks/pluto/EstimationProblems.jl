@@ -41,7 +41,7 @@ Let's make it a concrete example, and create some data. We will use the `readgeo
 """
 
 # ╔═╡ 99512b30-183c-11eb-1810-5b2f9c759229
-𝒮 = readgeotable("data/precipitation.csv", coordnames=(:x,:y))
+𝒮 = readgeotable("../data/precipitation.csv", coordnames=(:x,:y))
 
 # ╔═╡ 9dbf33b0-183c-11eb-0c73-45f17d57e4cd
 md"""Next, we define the domain in which the variables will be estimated. One of the many choices possible is the regular grid:"""
