@@ -2,6 +2,7 @@
 DirectGaussianSimulation = "b9828eed-09bc-50cb-b95c-f80757bd8d62"
 Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+GR = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
 GeoStats = "dcc97b0b-8ce5-5539-9008-bb190f959ef6"
 GeoStatsImages = "7cd16168-b42c-5e7d-a585-4f59d326662d"
 ImageQuilting = "e8712464-036d-575c-85ac-952ae31322ab"
