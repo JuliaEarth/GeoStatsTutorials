@@ -662,10 +662,10 @@ uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
 version = "1.0.3"
 
 [[MbedTLS_jll]]
-deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "c0b1286883cac4e2b617539de41111e0776d02e8"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "0eef589dd1c26a3ac9d753fe1a8bcad63f956fa6"
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.16.8+0"
+version = "2.16.8+1"
 
 [[Measures]]
 git-tree-sha1 = "e498ddeee6f9fdb4551ce855a46f54dbd900245f"
@@ -812,6 +812,12 @@ deps = ["Base64", "Contour", "Dates", "FFMPEG", "FixedPointNumbers", "GR", "Geom
 git-tree-sha1 = "8c22b5e0b625bda0e784d60805a4cabea8cbf128"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 version = "1.6.0"
+
+[[PlutoUI]]
+deps = ["Base64", "Dates", "Logging", "Markdown", "Random", "Suppressor"]
+git-tree-sha1 = "88315ac9b8d684b5e66377942de3e692a376b9b1"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.6.8"
 
 [[PointPatterns]]
 deps = ["Distributions", "GeoStatsBase", "RecipesBase"]
@@ -1001,6 +1007,11 @@ version = "1.1.0"
 [[SuiteSparse]]
 deps = ["Libdl", "LinearAlgebra", "Serialization", "SparseArrays"]
 uuid = "4607b0f0-06f3-5cda-b6b1-a6196a1729e9"
+
+[[Suppressor]]
+git-tree-sha1 = "a819d77f31f83e5792a76081eee1ea6342ab8787"
+uuid = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
+version = "0.2.0"
 
 [[TableTraits]]
 deps = ["IteratorInterfaceExtensions"]
