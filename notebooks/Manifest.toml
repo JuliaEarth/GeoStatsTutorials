@@ -456,9 +456,9 @@ version = "0.2.6"
 
 [[ImageQuilting]]
 deps = ["CpuId", "FFTW", "ImageFiltering", "ImageMorphology", "LightGraphs", "LightGraphsFlows", "Primes", "ProgressMeter", "Random", "RecipesBase", "Requires", "SparseArrays", "Statistics", "StatsBase"]
-git-tree-sha1 = "9bac5b9e7a334b268247da79ddf630cbd64c6f56"
+git-tree-sha1 = "c3cc1e6809e758896ccd531d3dbe5ec89123a3cf"
 uuid = "e8712464-036d-575c-85ac-952ae31322ab"
-version = "0.10.1"
+version = "0.10.2"
 
 [[IndirectArrays]]
 git-tree-sha1 = "c2a145a145dc03a7620af1444e0264ef907bd44f"
