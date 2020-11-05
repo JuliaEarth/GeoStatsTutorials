@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -83,13 +83,13 @@ Various theoretical variogram models are available in GeoStats.jl, including a c
 """
 
 # ╔═╡ 8be1d270-1868-11eb-09ec-697b71485822
-md"s = $(@bind s Slider(range(0, stop=.1, length=50); default=0.05, show_value=true))"
+md"sill = $(@bind s Slider(range(0, stop=.1, length=50); default=0.05, show_value=true))"
 
 # ╔═╡ 50706cf0-1869-11eb-375f-9112e5f435e9
-md"r = $(@bind r Slider(range(0, stop=100., length=50); default=50.0, show_value=true))"
+md"range = $(@bind r Slider(range(0, stop=100., length=50); default=50.0, show_value=true))"
 
 # ╔═╡ 608a9660-1869-11eb-170f-699e74bd5a47
-md"n = $(@bind n Slider(range(0, stop=.1, length=50); default=0.05, show_value=true))"
+md"nugget = $(@bind n Slider(range(0, stop=.1, length=50); default=0.05, show_value=true))"
 
 # ╔═╡ 824e62e0-1869-11eb-1d9b-4b650c21564f
 begin
@@ -104,7 +104,7 @@ md"""After tuning the parameters of the theoretical variogram interactively, we 
 
 # ╔═╡ f7a13450-1841-11eb-0829-0d76cd22c6e4
 begin
-	γ₂ = SphericalVariogram(sill=0.083, range=44.897, nugget=0.012)
+	γ₂ = SphericalVariogram(sill=0.083, range=44.897, nugget=0.0)
 	plot(γₑ, label="empirical")
 	plot!(γ₂, label="theoretical")
 end
@@ -125,14 +125,14 @@ begin
 end
 
 # ╔═╡ 2f3988e0-1842-11eb-0663-2bfccebc6320
-md"""or let GeoStats.jl pick the model with minimum weighted least squares error by passing the super type `Variogram`:"""
+md"""or let GeoStats.jl pick the model with minimum weighted least squares error by passing the `Variogram` super type:"""
 
 # ╔═╡ 3e5d445e-1842-11eb-05bc-d98aa1f73728
 begin
 	γ₄ = fit(Variogram, γₑ)
 	
 	plot(γₑ, label="empirical")
-	plot!(γ₄, label="theoretical")
+	plot!(γ₄, 0, 200, label="theoretical")
 end
 
 # ╔═╡ 49fabf52-1842-11eb-2266-7d8c574bb98a
@@ -142,7 +142,8 @@ md"""which in this example turns out to be:"""
 γ₄
 
 # ╔═╡ 583e05e0-1842-11eb-23fb-c3630190751c
-md"""## Conclusions
+md"""
+## Remarks
 
 - Variogram modeling is an important step in classical geostatistics. Some practioners prefer to model variograms interactively to enforce a specific type of spatial continuity, whereas others prefer to use automatic fitting procedures, which are guaranteed to minimize a given loss function.
 

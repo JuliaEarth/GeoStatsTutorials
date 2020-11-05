@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -107,7 +107,7 @@ and efficiently estimate the variogram on these planes:
 """
 
 # ╔═╡ bab9a493-2338-444b-9d45-6de34dcf4114
-@time EmpiricalVariogram(𝒫, :grain)
+@elapsed EmpiricalVariogram(𝒫, :grain)
 
 # ╔═╡ 91753cb1-8529-4dff-ac1f-22b491fae8be
 md"""
@@ -196,7 +196,7 @@ We notice that the average grain radius is larger on horizontal sections of the 
 """
 
 # ╔═╡ a8568e21-dcfe-412d-8b5f-e6d75d0a60eb
-γθ = @time EmpiricalVarioplane(𝒮, :grain, maxlag=30., normal=(1.,0.,0.))
+γθ = EmpiricalVarioplane(𝒮, :grain, maxlag=30., normal=(1.,0.,0.))
 
 # ╔═╡ 1f24d134-6b35-417a-b21b-9ceabc40f9bb
 md"""

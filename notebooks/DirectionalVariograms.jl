@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -7,15 +7,15 @@ using InteractiveUtils
 # ╔═╡ a47c3e6d-9687-4bb9-b71f-3ee242ede575
 using Pkg; Pkg.instantiate(); Pkg.precompile()
 
-# ╔═╡ adaef777-0a79-4886-b51c-1af2bbe9dddc
-using Random; Random.seed!(1234);
-
 # ╔═╡ fc7b9a21-34dd-40ba-9d57-9f785904e307
 begin
 	using GeoStats
 	using DirectGaussianSimulation
-	using Plots; gr(size=(950,300))
+	using Plots; gr(size=(700,400))
 end;
+
+# ╔═╡ adaef777-0a79-4886-b51c-1af2bbe9dddc
+using Random; Random.seed!(2021);
 
 # ╔═╡ e72d525c-5d3b-4938-9664-e6ea9f055d4b
 md"""
@@ -49,9 +49,6 @@ md"""
 With this anisotropic model, we generate $3$ realizations using direct Gaussian simulation:
 """
 
-# ╔═╡ 706028b0-1a09-11eb-3be2-851c3602f2de
-Random.seed!(2021)
-
 # ╔═╡ 1c49fba0-1e11-11eb-100f-b5319133da0c
 problem = SimulationProblem(RegularGrid(100,100), :Z=>Float64, 3)
 
@@ -59,7 +56,7 @@ problem = SimulationProblem(RegularGrid(100,100), :Z=>Float64, 3)
 solver  = DirectGaussSim(:Z=>(variogram=γ,))
 
 # ╔═╡ 24a088f0-1e11-11eb-35e6-f17264f4dcba
-solution = solve(problem, solver)
+#solution = solve(problem, solver)
 
 # ╔═╡ 588a7c36-82a2-494d-86aa-f0e322aa88e0
 md"""
@@ -67,7 +64,7 @@ We observe that the "blobs" in the realizations are indeed stretched horizontall
 """
 
 # ╔═╡ c63a6768-e680-451b-89aa-8f433f0afc82
-plot(solution)
+#plot(solution)
 
 # ╔═╡ 217cfa52-3b2a-41b2-b7ab-9f8edbf539e8
 md"""
@@ -75,7 +72,7 @@ We will now use one of these realizations as our spatial data, and will pretend 
 """
 
 # ╔═╡ e6c873d1-784a-4741-aec2-1954f49bef64
-𝒮 = solution[1]
+#𝒮 = solution[1]
 
 # ╔═╡ ea6cf614-c5b9-4b87-a9e3-3055d73f5266
 md"""
@@ -85,16 +82,16 @@ We estimate the horizontal and vertical variograms from the data:
 """
 
 # ╔═╡ 6454bed0-1a0b-11eb-0cf9-e1009c77d4d8
-γhor = DirectionalVariogram((1.,0.), 𝒮, :Z, maxlag=50.)
+#γhor = DirectionalVariogram((1.,0.), 𝒮, :Z, maxlag=50.)
 
 # ╔═╡ 689fd600-1a0b-11eb-06d6-3533ef872c88
-γver = DirectionalVariogram((0.,1.), 𝒮, :Z, maxlag=50.)
+#γver = DirectionalVariogram((0.,1.), 𝒮, :Z, maxlag=50.)#
 
 # ╔═╡ 72583d42-1a0b-11eb-2f2f-89224d7a7f22
-begin
-	plot(γhor, showbins=false, label="horizontal")
-	plot!(γver, showbins=false, label="vertical")
-end
+# begin
+# 	plot(γhor, showbins=false, label="horizontal")
+# 	plot!(γver, showbins=false, label="vertical")
+# end
 
 # ╔═╡ 271a2412-5932-41da-a492-7351e638eee3
 md"""
@@ -102,19 +99,19 @@ The plot shows clearly that the horizontal and vertical ranges are approximately
 """
 
 # ╔═╡ cf1e0110-1a09-11eb-38c1-a76c2f8d44e4
-γₕ = fit(GaussianVariogram, γhor)
+# γₕ = fit(GaussianVariogram, γhor)
 
 # ╔═╡ ccd0b5b0-1a09-11eb-0e34-59f93b46d9f9
-γᵥ = fit(GaussianVariogram, γver)
+# γᵥ = fit(GaussianVariogram, γver)
 
 # ╔═╡ edc4ba62-8b57-4855-9a9d-58ca1d91c393
-begin
-	plot(γₕ, label="horizontal")
-	plot!(γᵥ, label="vertical")
-end
+# begin
+# 	plot(γₕ, label="horizontal")
+# 	plot!(γᵥ, label="vertical")
+# end
 
 # ╔═╡ 73def5f0-1279-4d9c-9f64-cedee35d5148
-ratio = range(γₕ) / range(γᵥ)
+# ratio = range(γₕ) / range(γᵥ)
 
 # ╔═╡ a573757a-8f6c-4d3e-a953-e8afa93cd55c
 md"""
@@ -126,10 +123,10 @@ In this plot, we compute the empirical variogram for all angles $\theta \in [0,2
 """
 
 # ╔═╡ bec5961e-1a09-11eb-2d0c-6f76d78a7a16
-γₚ = EmpiricalVarioplane(𝒮, :Z, maxlag=50.)
+# γₚ = EmpiricalVarioplane(𝒮, :Z, maxlag=50.)
 
 # ╔═╡ 5d623878-053d-4001-84ee-4ac91af22202
-plot(γₚ, size=(500,500))
+# plot(γₚ, size=(500,500))
 
 # ╔═╡ f344409c-343e-4569-9536-b7611e628730
 md"""
@@ -149,15 +146,14 @@ md"""
 
 # ╔═╡ Cell order:
 # ╟─a47c3e6d-9687-4bb9-b71f-3ee242ede575
-# ╟─adaef777-0a79-4886-b51c-1af2bbe9dddc
 # ╠═fc7b9a21-34dd-40ba-9d57-9f785904e307
+# ╠═adaef777-0a79-4886-b51c-1af2bbe9dddc
 # ╟─e72d525c-5d3b-4938-9664-e6ea9f055d4b
 # ╟─b3fa8609-b27e-4ad2-9836-b7841d6a8db0
 # ╠═fe880642-1a08-11eb-1a6d-89cd44643007
 # ╟─f33cd7c5-7e57-4962-8e30-2e7155c01484
 # ╠═342bc591-d16e-4e73-809c-6fbebdc90f0d
 # ╟─c12699ae-6b89-470e-82f7-10db271b7d2e
-# ╠═706028b0-1a09-11eb-3be2-851c3602f2de
 # ╠═1c49fba0-1e11-11eb-100f-b5319133da0c
 # ╠═19fcfe60-1e11-11eb-366f-b745e9a95425
 # ╠═24a088f0-1e11-11eb-35e6-f17264f4dcba

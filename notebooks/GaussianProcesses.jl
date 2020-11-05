@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -59,10 +59,7 @@ And a set of unseen locations where to make predictions:
 """
 
 # ╔═╡ 8dad2424-1f70-11eb-3dfe-d5719a07e959
-begin
-	n  = 200
-	xs = range(0., stop=1, length=n)
-end
+xs = range(0., stop=1, length=200)
 
 # ╔═╡ d358e5bb-aaac-485c-a952-b29170861053
 md"""
@@ -81,8 +78,11 @@ md"sill = $(@bind s Slider(range(.0, stop=.1, length=50); default=0.05, show_val
 # ╔═╡ c3966bc0-1a90-11eb-05b3-0358a9025603
 md"range = $(@bind r Slider(range(.1, stop=.2, length=50); default=0.15, show_value=true))"
 
+# ╔═╡ 8fe351cc-1f8a-11eb-051e-0b41e180a9ff
+md"nugget = $(@bind n Slider(range(0., stop=s, length=50); default=0., show_value=true))"
+
 # ╔═╡ 2b90a50a-1f74-11eb-3375-bf5b937a963a
-γ = GaussianVariogram(sill=Float64(s), range=Float64(r))
+γ = GaussianVariogram(sill=Float64(s), range=Float64(r), nugget=Float64(n))
 
 # ╔═╡ 3f2b8950-1a91-11eb-2312-5f961fd3ac19
 begin
@@ -134,6 +134,7 @@ md"""
 # ╟─d358e5bb-aaac-485c-a952-b29170861053
 # ╟─c2e80350-1a90-11eb-0a0a-ddf37ddac7d8
 # ╟─c3966bc0-1a90-11eb-05b3-0358a9025603
+# ╟─8fe351cc-1f8a-11eb-051e-0b41e180a9ff
 # ╠═2b90a50a-1f74-11eb-3375-bf5b937a963a
 # ╠═3f2b8950-1a91-11eb-2312-5f961fd3ac19
 # ╟─dea78a79-903f-4157-a6a8-924c2a82aa31

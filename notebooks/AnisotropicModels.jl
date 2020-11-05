@@ -35,22 +35,22 @@ can be used to model anisotropy.
 A variogram object $\gamma$ can be evaluated as an isotropic model $\gamma(h)$ or as a (possibly) anisotropic model $\gamma(\mathbf{x},\mathbf{y})$. For the Euclidean distance (the default), these two operations match $\gamma(\mathbf{x},\mathbf{y}) = \gamma(h)$ in all directions:
 """
 
+# ╔═╡ 595c9562-1f87-11eb-0bf2-63a6477da384
+γₑ = GaussianVariogram()
+
 # ╔═╡ 740bd290-19bc-11eb-0b38-a19251f5c4a1
-begin
-	γₑ = GaussianVariogram()
-	γₑ([1.,0.], [0.,0.]) ≈ γₑ(1.)
-end
+γₑ([1.,0.], [0.,0.]) ≈ γₑ(1.)
 
 # ╔═╡ 1b4bc522-c693-4a94-898c-b444e087f001
 md"""
 If instead of an Euclidean ball, we use an ellipsoid with different semiaxes, the operation $\gamma(x,y)$ becomes a function of the direction $x-y$. For example, we can create an ellipsoid distance aligned with the coordinate system where the major semiaxis has twice the size of the minor semiaxis:
 """
 
-# ╔═╡ ac70ed00-19bc-11eb-08d5-5d35918b469c
-begin
-	γₐ = GaussianVariogram(distance=Ellipsoidal([2.,1.],[0.]))
-	γₐ([1.,0.],[0.,0.]) ≠ γₐ([0.,1.],[0.,0.])
-end
+# ╔═╡ 66f82a10-1f87-11eb-10f5-c7205d1874e2
+γₐ = GaussianVariogram(distance=aniso2distance([2.,1.],[0.]))
+
+# ╔═╡ 6bf0554c-1f87-11eb-1cfb-2354c6e5a851
+γₐ([1.,0.],[0.,0.]) ≠ γₐ([0.,1.],[0.,0.])
 
 # ╔═╡ 55647561-3f1b-475a-b457-bcc4dabc223f
 md"""
@@ -75,11 +75,8 @@ md"""
 and by defining an estimation problem:
 """
 
-# ╔═╡ 08efc0b2-242a-4eab-accc-17f90949469b
-𝒟 = RegularGrid(100, 100)
-
 # ╔═╡ 4ca2a420-19be-11eb-2761-37be6ab6bdd2
-𝒫 = EstimationProblem(𝒮, 𝒟, :z)
+𝒫 = EstimationProblem(𝒮, RegularGrid(100, 100), :z)
 
 # ╔═╡ e6c5a087-373d-4d67-9b5e-24b8ce0e70c7
 md"""
@@ -88,7 +85,7 @@ First, we vary the anisotropy ratio with an ellipsoid that is aligned with the c
 
 # ╔═╡ 374d8b78-544b-4a59-99e3-f39996297edc
 anim = @animate for r in range(1, stop=10., length=10)
-    d = Ellipsoidal([r,1.], [0.])
+    d = aniso2distance([r,1.], [0.])
     
     γ = GaussianVariogram(range=5., distance=d)
     
@@ -107,7 +104,7 @@ Second, we fix the anisotropy ratio and vary the alignment angle:
 
 # ╔═╡ 9cd702b9-ed26-445e-ac01-8eba860753da
 anim1 = @animate for θ in range(0, stop=2π, length=10)
-	d = Ellipsoidal([10.,1.], [θ])
+	d = aniso2distance([10.,1.], [θ])
 
 	γ = GaussianVariogram(range=5., distance=d)
 
@@ -126,7 +123,7 @@ This experiment can be extended to 3D with the only difference being that ellips
 
 # ╔═╡ 6d347750-1a21-11eb-2d8f-81cdd3950b1a
 begin
-	d₁ = Ellipsoidal([1.,1.,1.],[0.,0.,0.])
+	d₁ = aniso2distance([1.,1.,1.],[0.,0.,0.])
 	d₂ = Euclidean()
 	
 	a, b = rand(3), rand(3)
@@ -136,9 +133,9 @@ end
 
 # ╔═╡ a13ad039-5389-4723-8848-0a6fecada557
 md"""
-## Conclusions
+## Remarks
 
-- Geometric anisotropy can be easily modeled with an `Ellipsoidal` distance
+- Geometric anisotropy can be easily modeled with the `aniso2distance` function
 
 - GeoStats.jl recognizes any distance following the [Distances.jl](https://github.com/JuliaStats/Distances.jl) API
 """
@@ -149,13 +146,14 @@ md"""
 # ╠═7ff34075-f185-4b75-809b-54710f3c9722
 # ╟─3f7c2cb0-4847-4581-82fa-c1e577142c99
 # ╟─9abef139-b525-4d4a-97f4-d4ea9185af0c
+# ╠═595c9562-1f87-11eb-0bf2-63a6477da384
 # ╠═740bd290-19bc-11eb-0b38-a19251f5c4a1
 # ╟─1b4bc522-c693-4a94-898c-b444e087f001
-# ╠═ac70ed00-19bc-11eb-08d5-5d35918b469c
+# ╠═66f82a10-1f87-11eb-10f5-c7205d1874e2
+# ╠═6bf0554c-1f87-11eb-1cfb-2354c6e5a851
 # ╟─55647561-3f1b-475a-b457-bcc4dabc223f
 # ╠═322e0710-19be-11eb-32c9-9920da6d416a
 # ╟─81077b35-85dd-4f76-8986-1223c1965d08
-# ╠═08efc0b2-242a-4eab-accc-17f90949469b
 # ╠═4ca2a420-19be-11eb-2761-37be6ab6bdd2
 # ╟─e6c5a087-373d-4d67-9b5e-24b8ce0e70c7
 # ╠═374d8b78-544b-4a59-99e3-f39996297edc

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -37,10 +37,13 @@ $$\underbrace{\left(\frac{1}{N}\sum_{i=1}^{N} Au(x_i)\right)}_{\mu_\mathcal{S}:\
 
 # ╔═╡ fc60b540-1a0f-11eb-3bd0-23c1ea40c42c
 begin
+	# reference image representing a mine
 	ℐ = geostatsimage("WalkerLakeTruth")
-	Au = reshape(ℐ[:Z], size(domain(ℐ)))
 	
-	𝒟 = georef((Au=Au,))
+	# rename variable Z to Au
+	𝒟 = georef((Au=ℐ[:Z],), domain(ℐ))
+	
+	# sample from spatial data
 	𝒮 = sample(𝒟, 50, 𝒟[:Au], replace=false)
 	
 	plot(plot(𝒟), plot(𝒮))

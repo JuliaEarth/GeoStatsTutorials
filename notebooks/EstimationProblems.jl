@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -117,9 +117,10 @@ contourf(solution, clabels=true)
 surface(solution, camera=(50,70))
 
 # ╔═╡ 1b0583b0-183d-11eb-328d-359a7e550a0d
-md"""## Conclusions
+md"""
+## Remarks
 
-The ability to work at the level of the problem definition is quite desirable. Users can switch between different solvers without having to learn new syntax. This approach also guarantees that the problem being solved is the same and that the comparison is fair.
+- The ability to work at the level of the problem definition is quite desirable. Users can switch between different solvers without having to learn new syntax. This approach also guarantees that the problem being solved is the same and that the comparison is fair.
 """
 
 # ╔═╡ Cell order:
