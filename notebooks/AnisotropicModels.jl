@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
@@ -32,12 +32,7 @@ md"""
 Anisotropy can be thought of as a deformation of space with an ellipsoid distance. The semiaxes of the ellipsoid determine the preferential directions of the field and their lengths characterize the anisotropy ratio. In GeoStats.jl, all variogram models (empirical and theoretical) support a custom distance function that
 can be used to model anisotropy.
 
-$
-\newcommand{x}{\mathbf{x}}
-\newcommand{y}{\mathbf{y}}
-$
-
-A variogram object $\gamma$ can be evaluated as an isotropic model $\gamma(h)$ or as a (possibly) anisotropic model $\gamma(\x,\y)$. For the Euclidean distance (the default), these two operations match $\gamma(\x,\y) = \gamma(h)$ in all directions:
+A variogram object $\gamma$ can be evaluated as an isotropic model $\gamma(h)$ or as a (possibly) anisotropic model $\gamma(\mathbf{x},\mathbf{y})$. For the Euclidean distance (the default), these two operations match $\gamma(\mathbf{x},\mathbf{y}) = \gamma(h)$ in all directions:
 """
 
 # ╔═╡ 740bd290-19bc-11eb-0b38-a19251f5c4a1
