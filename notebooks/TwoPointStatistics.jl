@@ -5,18 +5,35 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 07589519-3c07-4a44-a3a2-f312213687c1
-using Pkg; Pkg.instantiate(); Pkg.precompile()
-
-# ╔═╡ 15ed2ae0-1a81-11eb-13c3-01781cc979f6
 begin
+	using Distributed
+	pids = [myid()]
+	
+	md"""
+	Running on processes: $pids
+	
+	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+	"""
+end
+
+# ╔═╡ c9fe9d86-1fa2-11eb-25d0-775c4ac2e24f
+@everywhere pids begin
+	using Pkg; Pkg.activate(@__DIR__)
+	Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ d45ea384-1fa2-11eb-19ef-b1e79b46c9fb
+@everywhere pids begin
+	# packages used in this notebook
 	using GeoStats
 	using GeoStatsImages
-	using Plots
-	gr(size=(700,400), c=:cividis, ms=2)
-end;
-
-# ╔═╡ 4a66263a-7fba-4294-89d3-55a5cc82bd27
-using Random; Random.seed!(2020);
+	
+	# default plot settings
+	using Plots; gr(size=(700,400), c=:cividis, ms=2)
+	
+	# make sure that results are reproducible
+	using Random; Random.seed!(2020)
+end
 
 # ╔═╡ 10ac0071-273b-4c9e-9b97-c94071dc826f
 md"""
@@ -219,8 +236,8 @@ md"""
 
 # ╔═╡ Cell order:
 # ╟─07589519-3c07-4a44-a3a2-f312213687c1
-# ╠═15ed2ae0-1a81-11eb-13c3-01781cc979f6
-# ╠═4a66263a-7fba-4294-89d3-55a5cc82bd27
+# ╟─c9fe9d86-1fa2-11eb-25d0-775c4ac2e24f
+# ╠═d45ea384-1fa2-11eb-19ef-b1e79b46c9fb
 # ╟─10ac0071-273b-4c9e-9b97-c94071dc826f
 # ╟─644bcfa0-1a83-11eb-2a92-03074995e820
 # ╟─54a3f000-1a83-11eb-2d1c-55fbe1506269

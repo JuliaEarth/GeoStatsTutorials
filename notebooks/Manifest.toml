@@ -358,9 +358,9 @@ version = "0.52.0"
 
 [[GaussianSimulation]]
 deps = ["CpuId", "Distributions", "FFTW", "GeoStatsBase", "KrigingEstimators", "LinearAlgebra", "Statistics", "Variography"]
-git-tree-sha1 = "76c235a44f709aff54e4aeffb97cf3afad8a7af3"
+git-tree-sha1 = "320fd016057c8524c24328cffc18f9c4cd2dc51e"
 uuid = "e40f437e-72ad-4a71-a29e-78c1c8d897bb"
-version = "0.1.1"
+version = "0.1.2"
 
 [[GeoEstimation]]
 deps = ["Distances", "GeoStatsBase", "LinearAlgebra", "NearestNeighbors", "StaticArrays"]
@@ -376,9 +376,9 @@ version = "0.18.0"
 
 [[GeoStatsBase]]
 deps = ["AverageShiftedHistograms", "CSV", "CategoricalArrays", "Combinatorics", "DataFrames", "DensityRatioEstimation", "Distances", "Distributed", "Distributions", "LinearAlgebra", "LossFunctions", "MLJModelInterface", "NearestNeighbors", "Optim", "Parameters", "Random", "RecipesBase", "ReferenceFrameRotations", "ScientificTypes", "SpecialFunctions", "StaticArrays", "Statistics", "StatsBase", "Tables", "Transducers"]
-git-tree-sha1 = "12b7500952e2348784910781e2e285af8de8c93d"
+git-tree-sha1 = "5aad33df7f7e1c5a16b35b1b82c752ac8adcb7b3"
 uuid = "323cb8eb-fbf6-51c0-afd0-f8fba70507b2"
-version = "0.14.1"
+version = "0.14.2"
 
 [[GeoStatsImages]]
 deps = ["FileIO", "GslibIO"]

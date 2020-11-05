@@ -14,20 +14,35 @@ macro bind(def, element)
 end
 
 # ╔═╡ f2ea0ebb-8502-4c0b-99fb-dbc673e564f7
-using Pkg; Pkg.instantiate(); Pkg.precompile()
-
-# ╔═╡ 6585c350-1a90-11eb-174a-274f60f662d9
 begin
+	using Distributed
+	pids = [myid()]
+	
+	md"""
+	Running on processes: $pids
+	
+	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+	"""
+end
+
+# ╔═╡ fc7da6c6-1fa2-11eb-13a5-155c93edbf61
+@everywhere pids begin
+	using Pkg; Pkg.activate(@__DIR__)
+	Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ 01c88650-1fa3-11eb-1156-bb632230292b
+@everywhere pids begin
+	# packages used in this notebook
 	using GeoStats
 	using PlutoUI
-	using Plots
-	gr(size=(700,400),
-	   xlim=(0,1),
-	   ylim=(0,1))
-end;
-
-# ╔═╡ 0e4ece36-520d-4a55-9057-0cf3c24754dd
-using Random; Random.seed!(2000);
+	
+	# default plot settings
+	using Plots; gr(size=(700,400), xlim=(0,1), ylim=(0,1))
+	
+	# make sure that results are reproducible
+	using Random; Random.seed!(2000)
+end
 
 # ╔═╡ 6c9b41d8-043f-4626-8798-4a3ae9da922b
 md"""
@@ -124,8 +139,8 @@ md"""
 
 # ╔═╡ Cell order:
 # ╟─f2ea0ebb-8502-4c0b-99fb-dbc673e564f7
-# ╠═6585c350-1a90-11eb-174a-274f60f662d9
-# ╠═0e4ece36-520d-4a55-9057-0cf3c24754dd
+# ╟─fc7da6c6-1fa2-11eb-13a5-155c93edbf61
+# ╠═01c88650-1fa3-11eb-1156-bb632230292b
 # ╟─6c9b41d8-043f-4626-8798-4a3ae9da922b
 # ╟─b069e90a-5be6-4ef9-8063-d6271fa3b386
 # ╠═ce127b5b-4cfd-4b00-8ee2-f73bf756de19

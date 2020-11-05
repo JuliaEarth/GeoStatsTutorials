@@ -1,30 +1,51 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
 
 # ╔═╡ 1ed84657-f480-4920-8719-d9123ca0d7d4
-using Pkg; Pkg.instantiate(); Pkg.precompile()
-
-# ╔═╡ 293b3ec0-1e69-11eb-3326-9d65d2fe99e3
 begin
+	using Distributed
+	pids = [myid()]
+	
+	md"""
+	Running on processes: $pids
+	
+	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+	"""
+end
+
+# ╔═╡ 39aebddc-1fa3-11eb-2f85-813c7473ffab
+@everywhere pids begin
+	using Pkg; Pkg.activate(@__DIR__)
+	Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ 418e9d24-1fa3-11eb-3ef9-51b170d57b9c
+@everywhere pids begin
+	# packages used in this notebook
 	using GeoStats
 	using ImageQuilting
 	using GeoStatsImages
-	using Plots
-	gr(size=(700,400), c=:cividis)
-end;
-
-# ╔═╡ 6d3a3573-a307-44a1-a4ab-b975d115cbcc
-using Random; Random.seed!(2000);
+	
+	# default plot settings
+	using Plots; gr(size=(700,400), c=:cividis)
+	
+	# make sure that results are reproducible
+	using Random; Random.seed!(2000)
+end
 
 # ╔═╡ 2a154f98-20d8-4277-a582-02dd4a6824a5
 md"""
 # Image quilting
 
-In this tutorial, we demonstrate the use of the image quilting solver, which is the fastest multiple-point simulation solver in the literature. For more information about the algorithm and its performance, please watch [this video](https://www.youtube.com/watch?v=YJs7jl_Y9yM).
+In this tutorial, we demonstrate the use of the image quilting solver, which is the fastest multiple-point simulation solver in the literature. For more information about the algorithm and its performance, please watch:
 """
+
+# ╔═╡ 91dca1b8-1fa3-11eb-3896-7fd43f394a02
+html"""
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YJs7jl_Y9yM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>"""
 
 # ╔═╡ 3389c9f1-441d-46da-9348-53a14923619a
 md"""
@@ -65,10 +86,10 @@ We load a famous image from the geostatistics literature:
 """
 
 # ╔═╡ 4e13c550-1e69-11eb-1dd9-7d438c2fad76
-ℐ = geostatsimage("Strebelle")
-
-# ╔═╡ 502455d0-1e69-11eb-10d8-cf92a45ae646
-plot(ℐ)
+begin
+	ℐ = geostatsimage("Strebelle")
+	plot(ℐ)
+end
 
 # ╔═╡ f56dcc7b-1d9d-42d3-9fc5-30a09c823b2f
 md"""
@@ -76,12 +97,7 @@ and define our solver:
 """
 
 # ╔═╡ 4a85e404-23b9-40b5-ad38-210139e1100a
-begin
-	# convert spatial variable to Julia array
-	TI = reshape(ℐ[:facies], size(domain(ℐ)))
-	
-	solver = ImgQuilt(:facies => (TI=TI, tilesize=(30,30)))
-end
+solver = ImgQuilt(:facies => (trainimg=ℐ, tilesize=(30,30)))
 
 # ╔═╡ d859e4a4-2e24-4336-9b3e-e6830b026faf
 md"""
@@ -92,7 +108,7 @@ The solver can be used for conditional simulation:
 sol₁ = solve(𝒫₁, solver)
 
 # ╔═╡ ed40a963-1570-4f8c-807f-2c3fd83e2a61
-plot(sol₁, size=(900,300))
+plot(sol₁, size=(700,200))
 
 # ╔═╡ 6e308e55-8665-401a-973a-c9bb58a8c835
 md"""
@@ -103,7 +119,7 @@ as well as unconditional simulation:
 sol₂ = solve(𝒫₂, solver)
 
 # ╔═╡ 0acd2cf0-1e69-11eb-0b4c-c1e407eb77bb
-plot(sol₂, size=(900,300))
+plot(sol₂, size=(700,200))
 
 # ╔═╡ 6213b523-8c93-424d-83c5-4fe32204accf
 md"""
@@ -117,16 +133,16 @@ md"""
 
 # ╔═╡ Cell order:
 # ╟─1ed84657-f480-4920-8719-d9123ca0d7d4
-# ╠═293b3ec0-1e69-11eb-3326-9d65d2fe99e3
-# ╠═6d3a3573-a307-44a1-a4ab-b975d115cbcc
+# ╟─39aebddc-1fa3-11eb-2f85-813c7473ffab
+# ╠═418e9d24-1fa3-11eb-3ef9-51b170d57b9c
 # ╟─2a154f98-20d8-4277-a582-02dd4a6824a5
+# ╟─91dca1b8-1fa3-11eb-3896-7fd43f394a02
 # ╟─3389c9f1-441d-46da-9348-53a14923619a
 # ╠═80e60650-1e69-11eb-376a-c1eb22aa1d0a
 # ╟─c39ecc8a-f1f4-4fe7-8a0f-a05807f8aca4
 # ╠═ac17a4ac-5cab-403f-8533-3f294c905a11
 # ╟─6330d732-f002-4552-b6b8-2a03e1e85ac2
 # ╠═4e13c550-1e69-11eb-1dd9-7d438c2fad76
-# ╠═502455d0-1e69-11eb-10d8-cf92a45ae646
 # ╟─f56dcc7b-1d9d-42d3-9fc5-30a09c823b2f
 # ╠═4a85e404-23b9-40b5-ad38-210139e1100a
 # ╟─d859e4a4-2e24-4336-9b3e-e6830b026faf

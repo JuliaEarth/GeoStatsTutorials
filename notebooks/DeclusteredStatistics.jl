@@ -5,18 +5,35 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ bc351d82-394f-45b6-a78e-88b2e0ff8eaf
-using Pkg; Pkg.instantiate(); Pkg.precompile()
-
-# ╔═╡ d8dfafc0-1a0c-11eb-3a6c-e5b7650cc588
 begin
+	using Distributed
+	pids = [myid()]
+	
+	md"""
+	Running on processes: $pids
+	
+	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+	"""
+end
+
+# ╔═╡ 7f452f9e-1fa2-11eb-2456-85df17947152
+@everywhere pids begin
+	using Pkg; Pkg.activate(@__DIR__)
+	Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ 8ced4438-1fa2-11eb-0f34-5d4b6ae2e1d3
+@everywhere pids begin
+	# packages used in this notebook
 	using GeoStats
 	using GeoStatsImages
-	using Plots
-	gr(size=(700,400), c=:cividis)
-end;
-
-# ╔═╡ 3d506c94-e1a4-4e52-a225-d9c13f48c3cd
-using Random; Random.seed!(2020);
+	
+	# default plot settings
+	using Plots; gr(size=(700,400), c=:cividis)
+	
+	# make sure that results are reproducible
+	using Random; Random.seed!(2020)
+end
 
 # ╔═╡ 58cbb430-74bc-45b0-b371-46d8db6ea2bf
 md"""
@@ -163,15 +180,15 @@ quantile(𝒮, :Au, [0.25,0.50,0.75])
 md"""
 ## Remarks
 
-- Spatial samples can be weighted based on their coordinates to improve volumetric estimates.
-- Spatial declustering is particularly useful in the presence of sampling bias and correlation.
-- GeoStats.jl changes the semantics of statistics such as `mean`, `var` and `quantile`.
+- Spatial samples can be weighted based on their coordinates to improve volumetric estimates
+- Spatial declustering is particularly useful in the presence of sampling bias and correlation
+- GeoStats.jl changes the semantics of statistics such as `mean`, `var` and `quantile`
 """
 
 # ╔═╡ Cell order:
 # ╟─bc351d82-394f-45b6-a78e-88b2e0ff8eaf
-# ╠═d8dfafc0-1a0c-11eb-3a6c-e5b7650cc588
-# ╠═3d506c94-e1a4-4e52-a225-d9c13f48c3cd
+# ╟─7f452f9e-1fa2-11eb-2456-85df17947152
+# ╠═8ced4438-1fa2-11eb-0f34-5d4b6ae2e1d3
 # ╟─58cbb430-74bc-45b0-b371-46d8db6ea2bf
 # ╠═fc60b540-1a0f-11eb-3bd0-23c1ea40c42c
 # ╟─a779b5df-19d5-4de1-90c1-499fef8e0a99

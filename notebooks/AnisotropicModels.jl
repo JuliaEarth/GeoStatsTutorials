@@ -4,19 +4,36 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ e08cb0c6-a704-4ab8-8c51-484e5cb770e4
-using Pkg; Pkg.instantiate(); Pkg.precompile()
-
-# ╔═╡ 20409989-41a8-4366-88ad-c562fff4dfa1
-using Random; Random.seed!(2000);
-
-# ╔═╡ 7ff34075-f185-4b75-809b-54710f3c9722
+# ╔═╡ 20c69a8e-1fa2-11eb-3f1e-ef154de99450
 begin
+	using Distributed
+	pids = [myid()]
+	
+	md"""
+	Running on processes: $pids
+	
+	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+	"""
+end
+
+# ╔═╡ 2399f800-1fa2-11eb-185d-53d05516dacf
+@everywhere pids begin
+	using Pkg; Pkg.activate(@__DIR__)
+	Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ 2c2e7df6-1fa2-11eb-29a8-3b59d382267e
+@everywhere pids begin
+	# packages used in this notebook
 	using GeoStats
 	using Distances
-	using Plots
-	gr(size=(700,400))
-end;
+	
+	# default plot settings
+	using Plots; gr(size=(700,400))
+	
+	# make sure that results are reproducible
+	using Random; Random.seed!(2000)
+end
 
 # ╔═╡ 3f7c2cb0-4847-4581-82fa-c1e577142c99
 md"""
@@ -141,9 +158,9 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─e08cb0c6-a704-4ab8-8c51-484e5cb770e4
-# ╟─20409989-41a8-4366-88ad-c562fff4dfa1
-# ╠═7ff34075-f185-4b75-809b-54710f3c9722
+# ╟─20c69a8e-1fa2-11eb-3f1e-ef154de99450
+# ╟─2399f800-1fa2-11eb-185d-53d05516dacf
+# ╠═2c2e7df6-1fa2-11eb-29a8-3b59d382267e
 # ╟─3f7c2cb0-4847-4581-82fa-c1e577142c99
 # ╟─9abef139-b525-4d4a-97f4-d4ea9185af0c
 # ╠═595c9562-1f87-11eb-0bf2-63a6477da384
@@ -157,10 +174,10 @@ md"""
 # ╠═4ca2a420-19be-11eb-2761-37be6ab6bdd2
 # ╟─e6c5a087-373d-4d67-9b5e-24b8ce0e70c7
 # ╠═374d8b78-544b-4a59-99e3-f39996297edc
-# ╠═a597d6f0-19c7-11eb-1d7b-8fc5d3bed81a
+# ╟─a597d6f0-19c7-11eb-1d7b-8fc5d3bed81a
 # ╟─b0ab7f62-914c-4cb9-a56e-1ee1ffb3295c
 # ╠═9cd702b9-ed26-445e-ac01-8eba860753da
-# ╠═f89daa10-1a20-11eb-339a-11253411a516
+# ╟─f89daa10-1a20-11eb-339a-11253411a516
 # ╟─81a64650-f46f-41aa-b0aa-5b4e20765317
 # ╠═6d347750-1a21-11eb-2d8f-81cdd3950b1a
 # ╟─a13ad039-5389-4723-8848-0a6fecada557

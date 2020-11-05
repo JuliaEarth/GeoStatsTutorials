@@ -1,24 +1,40 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.7
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 0daa81e3-14be-48b2-a154-470e931468d9
-using Pkg; Pkg.instantiate(); Pkg.precompile()
-
-# ╔═╡ 1ddca452-1c76-11eb-373d-eb2bdcf7aec5
+# ╔═╡ a83fe188-1fa4-11eb-1483-2f11ed5794cb
 begin
-	using GeoStats
-	using GeoStatsImages
-	using ImageQuilting
-	using DirectGaussianSimulation
-	using Plots
-	gr(size=(700,400), c=:cividis)
-end;
+	using Distributed
+	pids = [myid()]
+	
+	md"""
+	Running on processes: $pids
+	
+	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+	"""
+end
 
-# ╔═╡ d58e0b5e-731a-4bff-8fba-524a07b417e7
-using Random; Random.seed!(1234);
+# ╔═╡ 0daa81e3-14be-48b2-a154-470e931468d9
+@everywhere pids begin
+	using Pkg; Pkg.activate(@__DIR__)
+	Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ b293b968-1fa4-11eb-2011-934f29cff5d8
+@everywhere pids begin
+	# packages used in this notebook
+	using GeoStats
+	using ImageQuilting
+	using GeoStatsImages
+	
+	# default plot settings
+	using Plots; gr(size=(700,400), c=:cividis)
+	
+	# make sure that results are reproducible
+	using Random; Random.seed!(1234)
+end
 
 # ╔═╡ 3ca175d4-e123-4491-aca1-51b81a6813e5
 md"""
@@ -58,22 +74,18 @@ We define the facies simulation solver based on a training image that has two ca
 """
 
 # ╔═╡ 29bab540-1c77-11eb-399a-4943758c72ac
-ℐ = geostatsimage("Strebelle")
-
-# ╔═╡ 28a32797-9767-4501-bd74-27c01508980a
-plot(ℐ)
+begin
+	ℐ = geostatsimage("Strebelle")
+	plot(ℐ)
+end
 
 # ╔═╡ 930d162e-5cca-463f-bc00-e39740b4380e
 md"""
 Image quilting is a good default for training-image-based simulation:
 """
 
-# ╔═╡ a8118050-1c76-11eb-2851-d1c8f0d07442
-# convert spatial variable to Julia array
-TI = reshape(ℐ[:facies], size(domain(ℐ)))
-
 # ╔═╡ ae30e250-1c76-11eb-25e2-6149bdd11c4e
-fsolver = ImgQuilt(:facies => (TI=TI, tilesize=(30,30)))
+fsolver = ImgQuilt(:facies => (trainimg=ℐ, tilesize=(30,30)))
 
 # ╔═╡ 727a67da-4424-439b-b86c-3ab1a0de9f99
 md"""
@@ -81,14 +93,18 @@ Because there are two categorical values (0 and 1), we define two solvers:
 """
 
 # ╔═╡ 99333240-1c76-11eb-0920-cb7761577958
-psolver₀ = DirectGaussSim(
-	    :porosity => (variogram=SphericalVariogram(range=20., sill=.2),)
-	)
+psolver₀ = LUGaussSim(
+	:porosity => (variogram=SphericalVariogram(range=20., sill=.2),)
+)
 
 # ╔═╡ 9c917870-1c76-11eb-35ea-29dd220e13de
-psolver₁ = DirectGaussSim(
-	    :porosity => (variogram=SphericalVariogram(range=20., distance=Ellipsoidal([10.,1.],[0.])),)
+psolver₁ = LUGaussSim(
+	:porosity => (
+		variogram=SphericalVariogram(
+			range=20., distance=aniso2distance([10.,1.],[0.])
+		),
 	)
+)
 
 # ╔═╡ 7a8cc266-b367-49ff-93fd-aaa709ea850e
 md"""
@@ -112,7 +128,7 @@ We can plot each variable to confirm that the procedure was effective:
 """
 
 # ╔═╡ 60797bf5-6520-4194-b648-c4e9b62db5e6
-plot(solution, size=(900,600))
+plot(solution, size=(700,500))
 
 # ╔═╡ f8f53d25-04ef-4606-9ba9-8254c240ad0b
 md"""
@@ -124,9 +140,9 @@ md"""
 """
 
 # ╔═╡ Cell order:
+# ╟─a83fe188-1fa4-11eb-1483-2f11ed5794cb
 # ╟─0daa81e3-14be-48b2-a154-470e931468d9
-# ╠═1ddca452-1c76-11eb-373d-eb2bdcf7aec5
-# ╠═d58e0b5e-731a-4bff-8fba-524a07b417e7
+# ╠═b293b968-1fa4-11eb-2011-934f29cff5d8
 # ╟─3ca175d4-e123-4491-aca1-51b81a6813e5
 # ╟─f42e0618-68d7-405a-bcba-a5ce4772ee99
 # ╠═7900db30-1c76-11eb-3ce7-6f3528ef7446
@@ -135,9 +151,7 @@ md"""
 # ╟─7f1a7b30-d5b4-4630-bdaa-cfd9929a1912
 # ╟─fa5b5983-c6fc-4004-b720-10a3ed6bbfb6
 # ╠═29bab540-1c77-11eb-399a-4943758c72ac
-# ╠═28a32797-9767-4501-bd74-27c01508980a
 # ╟─930d162e-5cca-463f-bc00-e39740b4380e
-# ╠═a8118050-1c76-11eb-2851-d1c8f0d07442
 # ╠═ae30e250-1c76-11eb-25e2-6149bdd11c4e
 # ╟─727a67da-4424-439b-b86c-3ab1a0de9f99
 # ╠═99333240-1c76-11eb-0920-cb7761577958
