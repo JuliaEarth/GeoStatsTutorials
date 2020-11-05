@@ -17,11 +17,18 @@ The notebooks are better viewed on nbviewer:
 - [Two-point statistics](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/TwoPointStatistics.ipynb)
 - [Gaussian processes](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/GaussianProcesses.ipynb)
 - [Image quilting](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ImageQuilting.ipynb)
-- [Parallel simulation](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/ParallelSimulation.ipynb)
 - [Cookie-cutter](http://nbviewer.jupyter.org/github/juliohm/GeoStatsTutorials/blob/master/notebooks/CookieCutter.ipynb)
 
-## Contributing
+They can be run locally with:
 
-Please let us know if any of the notebooks is outdated or not functioning with the current release of GeoStats.jl.
+```julia
+using Pluto
+
+cd("notebooks")
+
+Pluto.run()
+```
+
+## Contributing
 
 Contributions are very welcome, please submit a pull request or open an issue with an example that you feel is missing.
