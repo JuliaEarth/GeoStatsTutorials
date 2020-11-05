@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.4
+# v0.12.6
 
 using Markdown
 using InteractiveUtils
@@ -11,13 +11,15 @@ using Pkg; Pkg.instantiate(); Pkg.precompile()
 using Random; Random.seed!(2000);
 
 # ╔═╡ 94719c30-183c-11eb-19b7-8da27516dab1
-using GeoStats
-
-# ╔═╡ e961feb2-183c-11eb-3389-bfe3e3acb6bb
-using Plots; gr(size=(800,400))
+begin
+	using GeoStats
+	using Plots
+	gr(size=(700,400))
+end;
 
 # ╔═╡ 873628b2-183c-11eb-2805-133d253e1e7a
-md"""# Estimation problems
+md"""
+# Estimation problems
 
 In this tutorial, we explain one of the greatest features of GeoStats.jl: the ability to setup geostatistical problems indenpendently of the solution strategy.
 
@@ -35,13 +37,11 @@ An estimation problem in geostatistics is a triplet:
 2. Spatial domain (e.g. regular grid, unstructured grid)
 3. Target variables (or variables to be estimated)
 
-It doesn't involve variograms, training images, or any tuning parameter. These concepts belong to solvers.
-
-Let's make it a concrete example, and create some data. We will use the `readgeotable` utility function to read a CSV from disk and convert it into a spatial data set based on two columns `:x` and `:y` with coordinates:
+It doesn't involve variograms, training images, or any tuning parameter. These concepts belong to solvers. Let's make it a concrete example, and create some data. We will use the `readgeotable` utility function to read a CSV from disk and convert it into a spatial data set based on two columns `:x` and `:y` with coordinates:
 """
 
 # ╔═╡ 99512b30-183c-11eb-1810-5b2f9c759229
-𝒮 = readgeotable("../data/precipitation.csv", coordnames=(:x,:y))
+𝒮 = readgeotable("data/precipitation.csv", coordnames=(:x,:y))
 
 # ╔═╡ 9dbf33b0-183c-11eb-0c73-45f17d57e4cd
 md"""Next, we define the domain in which the variables will be estimated. One of the many choices possible is the regular grid:"""
@@ -56,7 +56,7 @@ md"""Notice that by default, a regular grid has zero origin and unit spacing. Al
 RegularGrid((100, 100), (0., 0.), (1., 1.))
 
 # ╔═╡ b52c5d20-183c-11eb-1d37-47e6106139b0
-md"""Like many other domain types in GeoStats.jl, regular grids are lightweight objects. They do not require any memory space other than the space used to save the input parameters (i.e. dimensions, origin and spacing):"""
+md"""Regular grids are lightweight objects. They do not require any memory space other than the space used to save the input parameters (i.e. dimensions, origin and spacing):"""
 
 # ╔═╡ b6ec83b0-183c-11eb-068a-0d4642430675
 @allocated RegularGrid(10^6, 10^6)
@@ -82,9 +82,7 @@ solver = Kriging(
 )
 
 # ╔═╡ d6e7ec40-183c-11eb-0922-0305be3aad3a
-md"""The line above translates to "solve the precipitation variable using a Gaussian variogram". When only the variogram is specified, Ordinary Kriging is triggered.
-
-The user can specify the mean (e.g. `mean=.5`) for Simple Kriging, the polynomial degree (e.g. `degree=1`) for Universal Kriging, and the drift functions (e.g. `drifts=[x -> 1 + x[1], x -> 2x[2]]`) for External Drift Kriging. For more solver options, please consult the GeoStats.jl documentation.
+md"""The line above translates to *"solve the precipitation variable using a Gaussian variogram"*. When only the variogram is specified, Ordinary Kriging is triggered. The user can specify the mean (e.g. `mean=.5`) for Simple Kriging, the polynomial degree (e.g. `degree=1`) for Universal Kriging, and the drift functions (e.g. `drifts=[x -> 1 + x[1], x -> 2x[2]]`) for External Drift Kriging. For more solver options, please consult the GeoStats.jl documentation.
 
 The solution to the problem is easily obtained with:
 """
@@ -93,9 +91,7 @@ The solution to the problem is easily obtained with:
 solution = solve(problem, solver)
 
 # ╔═╡ dc01ec30-183c-11eb-38d6-3b5b6b3361f1
-md"""It is stored in an efficient format with all the necessary information to reconstruct the estimates spatially.
-
-Results for specific properties can be accessed:
+md"""It is stored in an efficient format with all the necessary information to reconstruct the estimates spatially. Results for specific properties can be accessed:
 """
 
 # ╔═╡ e05eb6a0-183c-11eb-3075-a3f261e0b8d5
@@ -109,7 +105,7 @@ md"""However, very often we just want to visualize the results. In GeoStats.jl, 
 plot(solution)
 
 # ╔═╡ 06b1a830-183d-11eb-19ce-ab6e9ae03bed
-md"""Thanks to the integration with Plots.jl, many plot types are available:"""
+md"""Thanks to the integration with [Plots.jl](https://github.com/JuliaPlots/Plots.jl), many plot types are available:"""
 
 # ╔═╡ 0c3c1d30-183d-11eb-171e-652252f6caa6
 contour(solution, clabels=true)
@@ -127,11 +123,11 @@ The ability to work at the level of the problem definition is quite desirable. U
 """
 
 # ╔═╡ Cell order:
-# ╠═57e916d0-183c-11eb-207a-91fa96032b25
-# ╠═82c5d640-183c-11eb-2f65-134ac1392a08
+# ╟─57e916d0-183c-11eb-207a-91fa96032b25
+# ╟─82c5d640-183c-11eb-2f65-134ac1392a08
+# ╠═94719c30-183c-11eb-19b7-8da27516dab1
 # ╟─873628b2-183c-11eb-2805-133d253e1e7a
 # ╟─904cd1b0-183c-11eb-350a-1f2488af5218
-# ╠═94719c30-183c-11eb-19b7-8da27516dab1
 # ╠═99512b30-183c-11eb-1810-5b2f9c759229
 # ╟─9dbf33b0-183c-11eb-0c73-45f17d57e4cd
 # ╠═a30db120-183c-11eb-21ac-b7da79707d4e
@@ -149,7 +145,6 @@ The ability to work at the level of the problem definition is quite desirable. U
 # ╟─dc01ec30-183c-11eb-38d6-3b5b6b3361f1
 # ╠═e05eb6a0-183c-11eb-3075-a3f261e0b8d5
 # ╟─e7b0a530-183c-11eb-2a1e-5930ae3286ac
-# ╠═e961feb2-183c-11eb-3389-bfe3e3acb6bb
 # ╠═00691350-183d-11eb-0cec-911bccf5d86b
 # ╟─06b1a830-183d-11eb-19ce-ab6e9ae03bed
 # ╠═0c3c1d30-183d-11eb-171e-652252f6caa6

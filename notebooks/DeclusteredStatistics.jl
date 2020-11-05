@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.4
+# v0.12.6
 
 using Markdown
 using InteractiveUtils
@@ -7,15 +7,16 @@ using InteractiveUtils
 # ╔═╡ bc351d82-394f-45b6-a78e-88b2e0ff8eaf
 using Pkg; Pkg.instantiate(); Pkg.precompile()
 
-# ╔═╡ 3d506c94-e1a4-4e52-a225-d9c13f48c3cd
-using Random; Random.seed!(2020);
-
 # ╔═╡ d8dfafc0-1a0c-11eb-3a6c-e5b7650cc588
 begin
 	using GeoStats
 	using GeoStatsImages
-	using Plots; gr(c=:cividis)
-end
+	using Plots
+	gr(size=(700,400), c=:cividis)
+end;
+
+# ╔═╡ 3d506c94-e1a4-4e52-a225-d9c13f48c3cd
+using Random; Random.seed!(2020);
 
 # ╔═╡ 58cbb430-74bc-45b0-b371-46d8db6ea2bf
 md"""
@@ -34,32 +35,16 @@ Estimate the remaining amount of Gold in the mine $\mathcal{D}$ from the spatial
 $$\underbrace{\left(\frac{1}{N}\sum_{i=1}^{N} Au(x_i)\right)}_{\mu_\mathcal{S}:\text{ sample average}} \times \mathcal{V}(\mathcal{D})$$
 """
 
-# ╔═╡ e859c140-1a0f-11eb-2305-0f3a05e2e129
-Random.seed!(2020)
-
-# ╔═╡ efe0063e-1a0f-11eb-3ed5-776430d53530
-md"example image to mimick Au mine"
-
 # ╔═╡ fc60b540-1a0f-11eb-3bd0-23c1ea40c42c
 begin
 	ℐ = geostatsimage("WalkerLakeTruth")
 	Au = reshape(ℐ[:Z], size(domain(ℐ)))
+	
+	𝒟 = georef((Au=Au,))
+	𝒮 = sample(𝒟, 50, 𝒟[:Au], replace=false)
+	
+	plot(plot(𝒟), plot(𝒮))
 end
-
-# ╔═╡ 02397150-1a10-11eb-1b79-7948f1d045e1
-md"georeference image"
-
-# ╔═╡ 0a6e45d0-1a10-11eb-3fec-011af632e666
-𝒟 = georef((Au=Au,))
-
-# ╔═╡ 0ec7b4e0-1a10-11eb-3a3e-613a164e23c9
-md"sample with weights proportional to Au"
-
-# ╔═╡ 0d88cc42-1a10-11eb-3791-3192d86dfa3c
-𝒮 = sample(𝒟, 50, 𝒟[:Au], replace=false)
-
-# ╔═╡ 198493ce-1a10-11eb-0bb7-9d044a60e114
-plot(plot(𝒟), plot(𝒮), size=(900,400))
 
 # ╔═╡ a779b5df-19d5-4de1-90c1-499fef8e0a99
 md"""
@@ -89,7 +74,7 @@ begin
 	ℬ = partition(𝒮, BlockPartitioner(50.,50.))
 	p₁ = plot(ℬ, colorbar=false, xlabel="x", ylabel="y")
 	p₂ = bar(nelms.(ℬ), xlabel="block", ylabel="counts", legend=false)
-	plot(p₁, p₂, size=(900,400))
+	plot(p₁, p₂)
 end
 
 # ╔═╡ 0857c193-0866-4c79-be0d-74750e0cc5ef
@@ -114,16 +99,13 @@ that generalizes the sample average $\mu_\mathcal{S} = \lim_{b\to 0} \mu_\mathca
 We can plot the weighted average for increasing block sizes to notice that the sample average (i.e. uniform weights) is recovered when the block size is too small (each sample is its own block), or when the block size is too large (all samples are in a single block):
 """
 
-# ╔═╡ b524d8c0-1a0d-11eb-1f53-b1e0f4b816fb
-bs = range(1, stop=120, length=100)
-
-# ╔═╡ b84cf3c0-1a0d-11eb-38d9-ab47f4f2722c
-μs = [mean(𝒮, :Au, b) for b in bs]
-
 # ╔═╡ bb3b8830-1a0d-11eb-3578-3fb0b1f8ffe0
 begin
+	bs = range(1, stop=120, length=100)
+	ms = [mean(𝒮, :Au, b) for b in bs]
+	
 	plot(xlabel="block size", ylabel="mean estimate", legend=:bottomright)
-	plot!(bs, μs, c=:green, label="weighted average")
+	plot!(bs, ms, c=:green, label="weighted average")
 	hline!([μ𝒮], c=:red, ls=:dash, label="sample average")
 	hline!([μ𝒟], c=:black, ls=:dash, label="true average")
 end
@@ -133,20 +115,15 @@ md"""
 In case the block size is ommited, GeoStats.jl uses a heuristic to select a "reasonable" block size for the given spatial configuration:
 """
 
-# ╔═╡ 9f4f3f40-1a0d-11eb-2037-475fe6186937
-μ𝒮1 = mean(𝒮[:Au])
-
 # ╔═╡ a1c3e8c0-1a0d-11eb-2163-659f72901110
 μℬ = mean(𝒮, :Au)
 
 # ╔═╡ a52f0030-1a0d-11eb-2412-c90fa06d295a
-md"Sample average   → $μ𝒮1"
-
-# ╔═╡ a750cec0-1a0d-11eb-1d5f-49bdee0fcd36
-md"Weighted average → $μℬ"
-
-# ╔═╡ aaf063b0-1a0d-11eb-2920-0b8b8373e41a
-md"True average     → $μ𝒟"
+md"""
+| Sample average | Weighted average | True average |
+|:--------------:|:----------------:|:------------:|
+| $μ𝒮            | $μℬ              | $μ𝒟          |
+"""
 
 # ╔═╡ a9bca08e-2a23-49b4-9f99-2267ff827e27
 md"""
@@ -183,24 +160,17 @@ quantile(𝒮, :Au, [0.25,0.50,0.75])
 md"""
 ## Remarks
 
-- Spatial samples can be weighted based on their coordinates to improve volumetric estimates of resources.
-- Spatial declustering is particularly useful in the presence of sampling bias and spatial correlation.
-- GeoStats.jl changes the semantics of statistics such as `mean`, `var` and `quantile` in a spatial context.
+- Spatial samples can be weighted based on their coordinates to improve volumetric estimates.
+- Spatial declustering is particularly useful in the presence of sampling bias and correlation.
+- GeoStats.jl changes the semantics of statistics such as `mean`, `var` and `quantile`.
 """
 
 # ╔═╡ Cell order:
-# ╠═bc351d82-394f-45b6-a78e-88b2e0ff8eaf
-# ╠═3d506c94-e1a4-4e52-a225-d9c13f48c3cd
+# ╟─bc351d82-394f-45b6-a78e-88b2e0ff8eaf
 # ╠═d8dfafc0-1a0c-11eb-3a6c-e5b7650cc588
+# ╠═3d506c94-e1a4-4e52-a225-d9c13f48c3cd
 # ╟─58cbb430-74bc-45b0-b371-46d8db6ea2bf
-# ╠═e859c140-1a0f-11eb-2305-0f3a05e2e129
-# ╟─efe0063e-1a0f-11eb-3ed5-776430d53530
 # ╠═fc60b540-1a0f-11eb-3bd0-23c1ea40c42c
-# ╟─02397150-1a10-11eb-1b79-7948f1d045e1
-# ╠═0a6e45d0-1a10-11eb-3fec-011af632e666
-# ╟─0ec7b4e0-1a10-11eb-3a3e-613a164e23c9
-# ╠═0d88cc42-1a10-11eb-3791-3192d86dfa3c
-# ╠═198493ce-1a10-11eb-0bb7-9d044a60e114
 # ╟─a779b5df-19d5-4de1-90c1-499fef8e0a99
 # ╠═c5a1c13e-cd05-41bc-a20a-ce1d2912f3b4
 # ╟─06b89221-c543-45be-baf9-513ccc7a8762
@@ -210,15 +180,10 @@ md"""
 # ╟─0857c193-0866-4c79-be0d-74750e0cc5ef
 # ╠═16a8cebb-0427-4cab-8697-be5b8274812e
 # ╟─f7fd71ae-2995-4176-984b-9524cad8c199
-# ╠═b524d8c0-1a0d-11eb-1f53-b1e0f4b816fb
-# ╠═b84cf3c0-1a0d-11eb-38d9-ab47f4f2722c
 # ╠═bb3b8830-1a0d-11eb-3578-3fb0b1f8ffe0
 # ╟─5d87af07-ffba-4e02-ac1b-b168b5d0b304
-# ╠═9f4f3f40-1a0d-11eb-2037-475fe6186937
 # ╠═a1c3e8c0-1a0d-11eb-2163-659f72901110
 # ╟─a52f0030-1a0d-11eb-2412-c90fa06d295a
-# ╟─a750cec0-1a0d-11eb-1d5f-49bdee0fcd36
-# ╟─aaf063b0-1a0d-11eb-2920-0b8b8373e41a
 # ╟─a9bca08e-2a23-49b4-9f99-2267ff827e27
 # ╠═4644c09e-1a0d-11eb-3db4-afbc0bbaad23
 # ╠═096d397d-370c-4d6a-b01b-45cac8981adc

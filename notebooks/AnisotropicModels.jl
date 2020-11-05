@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.4
+# v0.12.6
 
 using Markdown
 using InteractiveUtils
@@ -15,7 +15,8 @@ begin
 	using GeoStats
 	using Distances
 	using Plots
-end
+	gr(size=(700,400))
+end;
 
 # ╔═╡ 3f7c2cb0-4847-4581-82fa-c1e577142c99
 md"""
@@ -41,8 +42,8 @@ A variogram object $\gamma$ can be evaluated as an isotropic model $\gamma(h)$ o
 
 # ╔═╡ 740bd290-19bc-11eb-0b38-a19251f5c4a1
 begin
-	γ = GaussianVariogram()
-	γ([1.,0.], [0.,0.]) ≈ γ(1.)
+	γₑ = GaussianVariogram()
+	γₑ([1.,0.], [0.,0.]) ≈ γₑ(1.)
 end
 
 # ╔═╡ 1b4bc522-c693-4a94-898c-b444e087f001
@@ -52,15 +53,17 @@ If instead of an Euclidean ball, we use an ellipsoid with different semiaxes, th
 
 # ╔═╡ ac70ed00-19bc-11eb-08d5-5d35918b469c
 begin
-	γ1 = GaussianVariogram(distance=Ellipsoidal([2.,1.],[0.]))
-	γ1([1.,0.],[0.,0.]) ≠ γ1([0.,1.],[0.,0.])
+	γₐ = GaussianVariogram(distance=Ellipsoidal([2.,1.],[0.]))
+	γₐ([1.,0.],[0.,0.]) ≠ γₐ([0.,1.],[0.,0.])
 end
 
 # ╔═╡ 55647561-3f1b-475a-b457-bcc4dabc223f
 md"""
 ## Effects on estimation
 
-Now that we know how to construct anisotropic variograms, we can investigate the effect of varying the anisotropy ratio and alignement angle on estimation results. We start by generating some random data:
+Now that we know how to construct anisotropic variograms, we can investigate the effect of varying the anisotropy ratio and alignement angle on estimation results.
+
+We start by generating some random data:
 """
 
 # ╔═╡ 322e0710-19be-11eb-32c9-9920da6d416a
@@ -69,10 +72,8 @@ begin
 	X = 100*rand(dim, nobs)
 	z = rand(nobs)
 	𝒮 = georef((z=z,), X)
+	plot(𝒮)
 end
-
-# ╔═╡ 3de1a210-19be-11eb-3f05-eb2edd0f606b
-plot(𝒮)
 
 # ╔═╡ 81077b35-85dd-4f76-8986-1223c1965d08
 md"""
@@ -99,7 +100,7 @@ anim = @animate for r in range(1, stop=10., length=10)
     s = solve(𝒫, Kriging(:z => (variogram=γ,)))
     
     plot(s, size=(800,400))
-end
+end;
 
 # ╔═╡ a597d6f0-19c7-11eb-1d7b-8fc5d3bed81a
 gif(anim, "figs/anisotropy_ratio.gif", fps=1)
@@ -118,7 +119,7 @@ anim1 = @animate for θ in range(0, stop=2π, length=10)
 	s = solve(𝒫, Kriging(:z => (variogram=γ,)))
 
 	plot(s, size=(800,400))
-end
+end;
 
 # ╔═╡ f89daa10-1a20-11eb-339a-11253411a516
 gif(anim1, "figs/anisotropy_angle.gif", fps=1)
@@ -148,8 +149,8 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╠═e08cb0c6-a704-4ab8-8c51-484e5cb770e4
-# ╠═20409989-41a8-4366-88ad-c562fff4dfa1
+# ╟─e08cb0c6-a704-4ab8-8c51-484e5cb770e4
+# ╟─20409989-41a8-4366-88ad-c562fff4dfa1
 # ╠═7ff34075-f185-4b75-809b-54710f3c9722
 # ╟─3f7c2cb0-4847-4581-82fa-c1e577142c99
 # ╟─9abef139-b525-4d4a-97f4-d4ea9185af0c
@@ -158,7 +159,6 @@ md"""
 # ╠═ac70ed00-19bc-11eb-08d5-5d35918b469c
 # ╟─55647561-3f1b-475a-b457-bcc4dabc223f
 # ╠═322e0710-19be-11eb-32c9-9920da6d416a
-# ╠═3de1a210-19be-11eb-3f05-eb2edd0f606b
 # ╟─81077b35-85dd-4f76-8986-1223c1965d08
 # ╠═08efc0b2-242a-4eab-accc-17f90949469b
 # ╠═4ca2a420-19be-11eb-2761-37be6ab6bdd2

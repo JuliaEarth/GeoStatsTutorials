@@ -7,16 +7,17 @@ using InteractiveUtils
 # ╔═╡ 1ed84657-f480-4920-8719-d9123ca0d7d4
 using Pkg; Pkg.instantiate(); Pkg.precompile()
 
-# ╔═╡ 6d3a3573-a307-44a1-a4ab-b975d115cbcc
-using Random; Random.seed!(2000);
-
 # ╔═╡ 293b3ec0-1e69-11eb-3326-9d65d2fe99e3
 begin
 	using GeoStats
 	using ImageQuilting
-	using Plots; gr(c=:cividis)
 	using GeoStatsImages
-end
+	using Plots
+	gr(size=(700,400), c=:cividis)
+end;
+
+# ╔═╡ 6d3a3573-a307-44a1-a4ab-b975d115cbcc
+using Random; Random.seed!(2000);
 
 # ╔═╡ 2a154f98-20d8-4277-a582-02dd4a6824a5
 md"""
@@ -32,24 +33,19 @@ md"""
 ### Conditional simulation
 """
 
-# ╔═╡ 82554dc0-1e69-11eb-16f4-6f30549fc0fe
-md"create some artificial data"
-
 # ╔═╡ 80e60650-1e69-11eb-376a-c1eb22aa1d0a
-X = [50. 190. 150. 150.
-	     50. 50.  70.  190.]
-
-# ╔═╡ 7c090f62-1e69-11eb-156a-c7b8a7852569
-z = [1,0,1,1]
-
-# ╔═╡ 79b2c352-1e69-11eb-0d05-4b479a1ee254
-𝒮 = georef((facies=z,), X)
-
-# ╔═╡ 742abf50-1e69-11eb-001f-11f8ac49ddac
-𝒟 = RegularGrid(250, 250)
-
-# ╔═╡ 71494a40-1e69-11eb-0f76-bff1a4f3a5fa
-𝒫₁ = SimulationProblem(𝒮, 𝒟, :facies, 3)
+begin
+	X = [50. 190. 150. 150.
+		 50. 50.  70.  190.]
+	
+	z = [1, 0, 1, 1]
+	
+	𝒮 = georef((facies=z,), X)
+	
+	𝒟 = RegularGrid(250, 250)
+	
+	𝒫₁ = SimulationProblem(𝒮, 𝒟, :facies, 3)
+end
 
 # ╔═╡ c39ecc8a-f1f4-4fe7-8a0f-a05807f8aca4
 md"""
@@ -111,23 +107,21 @@ plot(sol₂, size=(900,300))
 
 # ╔═╡ 6213b523-8c93-424d-83c5-4fe32204accf
 md"""
-## Conclusions
+## Remarks
 
-Image quilting is an efficient solver that is particularly useful when hard data is scarce. It is capable of reproducing complex texture present in training images and is very easy to tune. For more details, please refer to [Hoffimann 2017](http://www.sciencedirect.com/science/article/pii/S0098300417301139).
+- Image quilting is an efficient solver that is particularly useful when hard data is scarce. It is capable of reproducing complex texture present in training images and is very easy to tune.
+
+- For more details, please check:
+  - *Hoffimann et al. 2017.* [Stochastic simulation by image quilting of process-based geological models](http://www.sciencedirect.com/science/article/pii/S0098300417301139).
 """
 
 # ╔═╡ Cell order:
-# ╠═1ed84657-f480-4920-8719-d9123ca0d7d4
-# ╠═6d3a3573-a307-44a1-a4ab-b975d115cbcc
+# ╟─1ed84657-f480-4920-8719-d9123ca0d7d4
 # ╠═293b3ec0-1e69-11eb-3326-9d65d2fe99e3
+# ╠═6d3a3573-a307-44a1-a4ab-b975d115cbcc
 # ╟─2a154f98-20d8-4277-a582-02dd4a6824a5
 # ╟─3389c9f1-441d-46da-9348-53a14923619a
-# ╟─82554dc0-1e69-11eb-16f4-6f30549fc0fe
 # ╠═80e60650-1e69-11eb-376a-c1eb22aa1d0a
-# ╠═7c090f62-1e69-11eb-156a-c7b8a7852569
-# ╠═79b2c352-1e69-11eb-0d05-4b479a1ee254
-# ╠═742abf50-1e69-11eb-001f-11f8ac49ddac
-# ╠═71494a40-1e69-11eb-0f76-bff1a4f3a5fa
 # ╟─c39ecc8a-f1f4-4fe7-8a0f-a05807f8aca4
 # ╠═ac17a4ac-5cab-403f-8533-3f294c905a11
 # ╟─6330d732-f002-4552-b6b8-2a03e1e85ac2

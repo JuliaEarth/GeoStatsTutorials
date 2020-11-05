@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.4
+# v0.12.6
 
 using Markdown
 using InteractiveUtils
@@ -7,15 +7,16 @@ using InteractiveUtils
 # ╔═╡ 07589519-3c07-4a44-a3a2-f312213687c1
 using Pkg; Pkg.instantiate(); Pkg.precompile()
 
-# ╔═╡ 4a66263a-7fba-4294-89d3-55a5cc82bd27
-using Random; Random.seed!(2020);
-
 # ╔═╡ 15ed2ae0-1a81-11eb-13c3-01781cc979f6
 begin
 	using GeoStats
-	using Plots; gr(c=:cividis, ms=2)
 	using GeoStatsImages
-end
+	using Plots
+	gr(size=(700,400), c=:cividis, ms=2)
+end;
+
+# ╔═╡ 4a66263a-7fba-4294-89d3-55a5cc82bd27
+using Random; Random.seed!(2020);
 
 # ╔═╡ 10ac0071-273b-4c9e-9b97-c94071dc826f
 md"""
@@ -26,7 +27,7 @@ We have a Micro-CT image of a rock sample such as the *Ketton* image provided by
 
 # ╔═╡ 644bcfa0-1a83-11eb-2a92-03074995e820
 html"""
-<img src="https://raw.githubusercontent.com/JuliaEarth/GeoStatsImages.jl/master/src/data/Ketton.png" width="30%">
+<div style="text-align: center"> <img src="https://raw.githubusercontent.com/JuliaEarth/GeoStatsImages.jl/master/src/data/Ketton.png" width="40%"> </div>
 <div style="text-align: center"> <b>Image credit:</b> <i>PERM at Imperial College London</i> </div>
 """
 
@@ -186,23 +187,8 @@ function radius(normal)
     range((1/p) * γₜ)
 end
 
-# ╔═╡ 11b1039e-1a88-11eb-387c-f395bd21662d
-begin
-	normal = (1.,0.,0.)
-	md"$normal → $(radius(normal))"
-end
-
-# ╔═╡ 64a5e112-1a84-11eb-1c53-d128549d1c62
-begin
-	normal1 = (0.,1.,0.)
-	md"$normal1 → $(radius(normal1))"
-end
-
-# ╔═╡ 30fdc030-1a89-11eb-3f70-21d77c5188ea
-begin
-	normal2 = (0.,0.,1.)
-	md"$normal2 → $(radius(normal2))"
-end
+# ╔═╡ 558617dc-1f6d-11eb-1979-ab366bf27b99
+rs = map(radius, [(1.,0.,0.), (0.,1.,0.), (0.,0.,1.)])
 
 # ╔═╡ 2e04841e-de35-4d9b-870f-636b1492150c
 md"""
@@ -232,9 +218,9 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╠═07589519-3c07-4a44-a3a2-f312213687c1
-# ╠═4a66263a-7fba-4294-89d3-55a5cc82bd27
+# ╟─07589519-3c07-4a44-a3a2-f312213687c1
 # ╠═15ed2ae0-1a81-11eb-13c3-01781cc979f6
+# ╠═4a66263a-7fba-4294-89d3-55a5cc82bd27
 # ╟─10ac0071-273b-4c9e-9b97-c94071dc826f
 # ╟─644bcfa0-1a83-11eb-2a92-03074995e820
 # ╟─54a3f000-1a83-11eb-2d1c-55fbe1506269
@@ -262,9 +248,7 @@ md"""
 # ╟─0a7a54bd-bb1d-4510-9e4d-cb3dfdb5ded9
 # ╟─2fe75541-7860-4738-acdb-abb2ee01f88a
 # ╠═a7de2c67-e03b-4dcf-8b63-4d2846dace89
-# ╟─11b1039e-1a88-11eb-387c-f395bd21662d
-# ╟─64a5e112-1a84-11eb-1c53-d128549d1c62
-# ╟─30fdc030-1a89-11eb-3f70-21d77c5188ea
+# ╠═558617dc-1f6d-11eb-1979-ab366bf27b99
 # ╟─2e04841e-de35-4d9b-870f-636b1492150c
 # ╠═a8568e21-dcfe-412d-8b5f-e6d75d0a60eb
 # ╟─1f24d134-6b35-417a-b21b-9ceabc40f9bb

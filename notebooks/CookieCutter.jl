@@ -7,17 +7,18 @@ using InteractiveUtils
 # ╔═╡ 0daa81e3-14be-48b2-a154-470e931468d9
 using Pkg; Pkg.instantiate(); Pkg.precompile()
 
-# ╔═╡ d58e0b5e-731a-4bff-8fba-524a07b417e7
-using Random; Random.seed!(1234);
-
 # ╔═╡ 1ddca452-1c76-11eb-373d-eb2bdcf7aec5
 begin
 	using GeoStats
 	using GeoStatsImages
-	using Plots; gr(c=:cividis)
 	using ImageQuilting
 	using DirectGaussianSimulation
-end
+	using Plots
+	gr(size=(700,400), c=:cividis)
+end;
+
+# ╔═╡ d58e0b5e-731a-4bff-8fba-524a07b417e7
+using Random; Random.seed!(1234);
 
 # ╔═╡ 3ca175d4-e123-4491-aca1-51b81a6813e5
 md"""
@@ -115,7 +116,7 @@ plot(solution, size=(900,600))
 
 # ╔═╡ f8f53d25-04ef-4606-9ba9-8254c240ad0b
 md"""
-## Conclusions
+## Remarks
 
 - The cookie-cutter procedure in GeoStats.jl gives users the ability to create very complex combinations of patterns that are difficult to generate otherwise with a single simulation algorithm.
 
@@ -123,9 +124,9 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╠═0daa81e3-14be-48b2-a154-470e931468d9
-# ╠═d58e0b5e-731a-4bff-8fba-524a07b417e7
+# ╟─0daa81e3-14be-48b2-a154-470e931468d9
 # ╠═1ddca452-1c76-11eb-373d-eb2bdcf7aec5
+# ╠═d58e0b5e-731a-4bff-8fba-524a07b417e7
 # ╟─3ca175d4-e123-4491-aca1-51b81a6813e5
 # ╟─f42e0618-68d7-405a-bcba-a5ce4772ee99
 # ╠═7900db30-1c76-11eb-3ce7-6f3528ef7446

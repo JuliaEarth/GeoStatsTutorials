@@ -13,9 +13,9 @@ using Random; Random.seed!(1234);
 # ╔═╡ fc7b9a21-34dd-40ba-9d57-9f785904e307
 begin
 	using GeoStats
-	using Plots; gr(size=(950,300))
 	using DirectGaussianSimulation
-end
+	using Plots; gr(size=(950,300))
+end;
 
 # ╔═╡ e72d525c-5d3b-4938-9664-e6ea9f055d4b
 md"""
@@ -34,7 +34,7 @@ First, we consider a base (isotropic) variogram model:
 """
 
 # ╔═╡ fe880642-1a08-11eb-1a6d-89cd44643007
-γ = GaussianVariogram(range=10.)
+GaussianVariogram(range=10.)
 
 # ╔═╡ f33cd7c5-7e57-4962-8e30-2e7155c01484
 md"""
@@ -42,7 +42,7 @@ To convert this isotropic model into an anisotropic model, we use an ellipsoid d
 """
 
 # ╔═╡ 342bc591-d16e-4e73-809c-6fbebdc90f0d
-γ1 = GaussianVariogram(range=10., distance=Ellipsoidal([3.,1.], [0.]))
+γ = GaussianVariogram(range=10., distance=Ellipsoidal([3.,1.], [0.]))
 
 # ╔═╡ c12699ae-6b89-470e-82f7-10db271b7d2e
 md"""
@@ -148,8 +148,8 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╠═a47c3e6d-9687-4bb9-b71f-3ee242ede575
-# ╠═adaef777-0a79-4886-b51c-1af2bbe9dddc
+# ╟─a47c3e6d-9687-4bb9-b71f-3ee242ede575
+# ╟─adaef777-0a79-4886-b51c-1af2bbe9dddc
 # ╠═fc7b9a21-34dd-40ba-9d57-9f785904e307
 # ╟─e72d525c-5d3b-4938-9664-e6ea9f055d4b
 # ╟─b3fa8609-b27e-4ad2-9836-b7841d6a8db0
