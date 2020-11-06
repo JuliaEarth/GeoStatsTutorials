@@ -16,15 +16,17 @@ Tutorials in the form of Pluto notebooks for the [GeoStats.jl](https://github.co
 - Image quilting
 - Cookie-cutter
 
-They can be run locally with [Pluto](https://github.com/fonsp/Pluto.jl):
+They can be run locally with [Pluto.jl](https://github.com/fonsp/Pluto.jl).
 
 Run Julia and add the package:
+
 ```
 julia> ]
 pkg> add Pluto
 ```
 
-To run the notebook server:
+To run the notebooks:
+
 ```
 using Pluto
 
@@ -32,6 +34,7 @@ cd("notebooks")
 
 Pluto.run()
 ```
+
 Pluto will open in your browser, and you can get started!
 
 ## Contributing
