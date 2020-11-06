@@ -2,7 +2,7 @@
 
 [![gitter](https://img.shields.io/badge/chat-on%20gitter-bc0067.svg)](https://gitter.im/JuliaEarth/GeoStats.jl)
 
-Tutorials in the form of Pluto notebooks for the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework.
+Tutorials in the form of [Pluto](https://github.com/fonsp/Pluto.jl) notebooks for the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework.
 
 ## Notebooks
 
@@ -16,16 +16,14 @@ Tutorials in the form of Pluto notebooks for the [GeoStats.jl](https://github.co
 - Image quilting
 - Cookie-cutter
 
-They can be run locally with [Pluto.jl](https://github.com/fonsp/Pluto.jl).
-
-Run Julia and add the package:
+To run the notebooks locally, install Pluto:
 
 ```
 julia> ]
 pkg> add Pluto
 ```
 
-To run the notebooks:
+and launch it from the `notebooks` folder:
 
 ```
 using Pluto
@@ -34,8 +32,6 @@ cd("notebooks")
 
 Pluto.run()
 ```
-
-Pluto will open in your browser, and you can get started!
 
 ## Contributing
 
