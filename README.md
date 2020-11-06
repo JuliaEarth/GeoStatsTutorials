@@ -18,14 +18,14 @@ Tutorials in the form of [Pluto](https://github.com/fonsp/Pluto.jl) notebooks fo
 
 To run the notebooks locally, install Pluto:
 
-```
+```julia
 julia> ]
 pkg> add Pluto
 ```
 
 and launch it from the `notebooks` folder:
 
-```
+```julia
 using Pluto
 
 cd("notebooks")
