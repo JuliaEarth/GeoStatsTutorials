@@ -70,7 +70,7 @@ With this anisotropic model, we generate $3$ realizations using direct Gaussian 
 problem = SimulationProblem(RegularGrid(100,100), :Z=>Float64, 3)
 
 # ╔═╡ 19fcfe60-1e11-11eb-366f-b745e9a95425
-solver  = LUGaussSim(:Z=>(variogram=γ,))
+solver  = LUGS(:Z=>(variogram=γ,))
 
 # ╔═╡ 24a088f0-1e11-11eb-35e6-f17264f4dcba
 solution = solve(problem, solver)

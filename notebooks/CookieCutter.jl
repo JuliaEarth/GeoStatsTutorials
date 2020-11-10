@@ -93,12 +93,12 @@ Because there are two categorical values (0 and 1), we define two solvers:
 """
 
 # ╔═╡ 99333240-1c76-11eb-0920-cb7761577958
-psolver₀ = LUGaussSim(
+psolver₀ = LUGS(
 	:porosity => (variogram=SphericalVariogram(range=20., sill=.2),)
 )
 
 # ╔═╡ 9c917870-1c76-11eb-35ea-29dd220e13de
-psolver₁ = LUGaussSim(
+psolver₁ = LUGS(
 	:porosity => (
 		variogram=SphericalVariogram(
 			range=20., distance=aniso2distance([10.,1.],[0.])

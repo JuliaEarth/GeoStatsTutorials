@@ -10,6 +10,7 @@ Tutorials in the form of [Pluto](https://github.com/fonsp/Pluto.jl) notebooks fo
 - Variogram modeling
 - Anisotropic models
 - Directional variograms
+- Variography game
 - Declustered statistics
 - Two-point statistics
 - Gaussian processes
