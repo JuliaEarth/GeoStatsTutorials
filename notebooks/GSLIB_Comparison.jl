@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.10
+# v0.12.11
 
 using Markdown
 using InteractiveUtils
@@ -210,7 +210,7 @@ begin
 end
 
 # ╔═╡ 52196222-2eb3-11eb-3141-41c53f8cae56
-md"""Let's now compare the stored results from GSLIB with the results gtom GoeStats"""
+md"""Let's now compare the stored results by GSLIB with the results by GeoStats:"""
 
 # ╔═╡ 71b88180-2eb3-11eb-3937-8d8f6447d7b4
 begin
