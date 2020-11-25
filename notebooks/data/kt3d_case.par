@@ -1,0 +1,29 @@
+                  Parameters for KT3D
+                  *******************
+
+START OF PARAMETERS:
+data3D_samples.gslib              -file with data
+0  1  2  3  4  0                 -   columns for DH,X,Y,Z,var,sec var
+-1.0e21   1.0e21                 -   trimming limits
+0                                -option: 0=grid, 1=cross, 2=jackknife
+data3D_grid.gslib                -file with jackknife data
+1   2   3    0    0              -   columns for X,Y,Z,vr and sec var
+3                                -debugging level: 0,1,2,3
+kt3d_case.dbg                         -file for debugging output
+kt3d_output.gslib                         -file for kriged output
+100    0.5    1.0                  -nx,xmn,xsiz
+100    0.5    1.0                  -ny,ymn,ysiz
+1   2200.5    1.0                  -nz,zmn,zsiz
+1    1      1                    -x,y and z block discretization
+1    50                          -min, max data for kriging
+0                                -max per octant (0-> not used)
+500.0  500.0  500.0              -maximum search radii
+0.0   0.0   0.0                 -angles for search ellipsoid
+1     2.302                      -0=SK,1=OK,2=non-st SK,3=exdrift
+0 0 0 0 0 0 0 0 0                -drift: x,y,z,xx,yy,zz,xy,xz,zy
+0                                -0, variable; 1, estimate trend
+extdrift.dat                     -gridded file with drift/mean
+4                                -  column number in gridded file
+1    0.2                         -nst, nugget effect
+1    0.8  45.0   10.0   -5.0        -it,cc,ang1,ang2,ang3
+         50.0  40.0  10.0     -a_hmax, a_hmin, a_vert
