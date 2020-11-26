@@ -4,34 +4,47 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 32e5c724-2ea9-11eb-087c-4343d7cd04f1
+# ╔═╡ 20c69a8e-1fa2-11eb-3f1e-ef154de99450
 begin
-  # load used packages in this tutorial
+  using Distributed
+  pids = [myid()]
+
+  md"""
+  Running on processes: $pids
+
+  Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
+  """
+end
+
+# ╔═╡ 2399f800-1fa2-11eb-185d-53d05516dacf
+@everywhere pids begin
+  using Pkg; Pkg.activate(@__DIR__)
+  Pkg.instantiate(); Pkg.precompile()
+end
+
+# ╔═╡ 2c2e7df6-1fa2-11eb-29a8-3b59d382267e
+@everywhere pids begin
+  # packages used in this notebook
   using GeoStats
   using FileIO
   using GslibIO
+
+  # default plot settings
   using Plots; gr(size=(700,400))
-  
-  # load samples
-  𝒮 = readgeotable("data/data3D_samples.csv", coordnames=(:x,:y,:z));
-  clay_mean = mean(𝒮[:clay])
-  clay_var = var(𝒮[:clay])
-  "Statistics for clay: mean=$clay_mean and var=$clay_var"
-	
 end
 
-# ╔═╡ 524c65d0-2ea9-11eb-0450-5ff97535406c
+
+# ╔═╡ 524c65d0-2ea9-11eb-0450-5ff97535406a
 md"""
-# GSLIB_comparison
+# GSLIB comparison
 
 This tutorial shows how to run a Kriging estimation problem that homologates GSLIB kriging program *kt3d*.
 
 ## Case study
 
-The case study used in this tutorial uses synthetic drillcore samples adapted from (https://github.com/exepulveda/geomet_datasets/tree/master/datasets/porphyry_01).
+The case study used in this tutorial uses synthetic drillcore samples adapted from (https://github.com/exepulveda/geomet\_datasets/tree/master/datasets/porphyry_01).
 There are 6,817 samples with clay, chalcosite, bornite and chalcopyrite content.
-For simplicity, we will estimate clay content on a specific elevation (2200.5 m) to make
-the result easy to visualize in a two-dimensional view.
+For simplicity, we will estimate clay content at a specific elevation (2200.5 m) to make the results easy to visualize in a two-dimensional view.
 
 The variogram has been normalized to have a total sill of 1.0.
 The nugget effect accounts for 20% of the total sill and a spherical structure does for the 80% with 
@@ -41,8 +54,11 @@ We use a homotopic search radius of 500.0 m and a maximum of 50 samples.
 
 At this moment, GeoStats does not support block kriging, therefore, ordinary kriging at point support
 is compared and a block discretization of 1,1,1 is used.
+"""
 
-## GSLIB
+# ╔═╡ 524c65d0-2ea9-11eb-0450-5ff97535406b
+md"""
+## GSLIB setup
 
 GSLIB *kt3d* uses a parameter file that contains all parameter values for performing kriging. 
 We have stored the samples and all GSLIB required files: parameter, inputs and results;
@@ -147,18 +163,36 @@ Estimated      10000 blocks
 ```
 
 This execution should take about 10 seconds for 10,000 blocks.
+"""
 
+# ╔═╡ 524c65d0-2ea9-11eb-0450-5ff97535406c
+md"""
 ## Homologation
 
-In order to homologate GSLIB to GeoStats, we need to work with an anisotropic distance metric for the variogram model.
+In order to homologate GSLIB to GeoStats, we need to work with an anisotropic distance metric for the variogram model, due to GeoStats does not implement anisotropic searches yet.
 
-Let's write the GeoStats code:
+Let's write the GeoStats code.
+
+First, we load and plot the dataset.
 
 """
 
-# ╔═╡ fc53a6d8-2eab-11eb-23a7-2daac4a2ecf9
+# ╔═╡ 32e5c724-2ea9-11eb-087c-4343d7cd04f1
 begin
-	plot(𝒮)
+  # load samples
+  𝒮 = readgeotable("data/data3D_samples.csv", coordnames=(:x,:y,:z));
+  plot(𝒮)
+end
+
+# ╔═╡ 8da256e0-2f95-11eb-2e49-77bc738016dc
+md"""Second, we display basic statistics for clay."""
+
+
+# ╔═╡ 9ddcfb6e-2f95-11eb-19dd-23fddd5ad1a5
+begin
+  clay_mean = mean(𝒮[:clay])
+  clay_var = var(𝒮[:clay])
+  "Statistics for clay: mean=$clay_mean and var=$clay_var"
 end
 
 # ╔═╡ 6f03023c-2eac-11eb-3500-8d4560423cdc
@@ -167,25 +201,24 @@ md"""Let's define the regular grid (100 x 100 x 1) for the specific elevation at
 
 # ╔═╡ 6e03f314-2eac-11eb-38c1-4ff4d9bc802d
 begin
-	𝒟 = RegularGrid((100, 100, 1),(0.5, 0.5, 2200.5),(1.0, 1.0, 1.0))
+  𝒟 = RegularGrid((100, 100, 1),(0.5, 0.5, 2200.5),(1.0, 1.0, 1.0))
 end
 
 # ╔═╡ b50ca8e0-2eb2-11eb-1ad1-ed726e10868c
-md"""and the variogram model with anisotropy"""
+md"""and the variogram model with anisotropy:"""
 
 # ╔═╡ e3733c0e-2eac-11eb-19cc-41c2d5ec46ee
 begin
-	vmodel_range = 50.0
-	anisotropy = [1.0, 40.0/vmodel_range, 10.0/vmodel_range]
-	angles = [45.0, 10.0, -5.0]
+  vmodel_range = 50.0
+  anisotropy = [1.0, 40.0/vmodel_range, 10.0/vmodel_range]
+  angles = [45.0, 10.0, -5.0]
 
-	gslib_distance_vmodel = aniso2distance(anisotropy, angles, convention=:GSLIB)
+  gslib_distance_vmodel = aniso2distance(anisotropy, angles, convention=:GSLIB)
 
-	nugget = 0.2
-	cc = 0.8
+  nugget = 0.2
+  cc = 0.8
 
-	γ = SphericalVariogram(range=vmodel_range,nugget=nugget, sill=nugget+cc, distance=gslib_distance_vmodel)
-	
+  γ = SphericalVariogram(range=vmodel_range,nugget=nugget, sill=nugget+cc, distance=gslib_distance_vmodel)
 end
 
 # ╔═╡ 0a18aa14-2eb3-11eb-3975-0b419b7524a2
@@ -193,20 +226,19 @@ md"""The estimation problem and the solution:"""
 
 # ╔═╡ 27c72838-2eb3-11eb-29f4-ad9b1d5ce93e
 begin
-	problem = EstimationProblem(𝒮, 𝒟, :clay)
+  problem = EstimationProblem(𝒮, 𝒟, :clay)
 
-	solver = Kriging(
-    	:clay => (variogram=γ, minneighbors=1, maxneighbors=50, neighborhood=BallNeighborhood(500.0))
-	)
+  solver = Kriging(
+    :clay => (variogram=γ, minneighbors=1, maxneighbors=50, neighborhood=BallNeighborhood(500.0))
+  )
 
-	solution = solve(problem, solver)
+  solution = solve(problem, solver)
 
-	μ, σ² = solution[:clay]
+  μ, σ² = solution[:clay]
 
   # get the right slice
   S_μ = georef((clay=reshape(μ, 100, 100, 1)[:,:,1],), RegularGrid(100,100))
- 	plot(S_μ)
-
+  plot(S_μ)
 end
 
 # ╔═╡ 52196222-2eb3-11eb-3141-41c53f8cae56
@@ -214,34 +246,39 @@ md"""Let's now compare the stored results by GSLIB with the results by GeoStats:
 
 # ╔═╡ 71b88180-2eb3-11eb-3937-8d8f6447d7b4
 begin
-	#load computed results from GSLIB
-	grid_gslib = GslibIO.load_legacy("data/kt3d_output.gslib", (100, 100, 1))
+  #load computed results from GSLIB
+  grid_gslib = GslibIO.load_legacy("data/kt3d_output.gslib", (100, 100, 1))
 
-	μ_gslib = grid_gslib[:Estimate]
-	σ²_gslib = grid_gslib[:EstimationVariance]
+  μ_gslib = grid_gslib[:Estimate]
+  σ²_gslib = grid_gslib[:EstimationVariance]
 
   # get the right slice
   S_μ_gslib = georef((clay=reshape(μ_gslib, 100, 100, 1)[:,:,1],), RegularGrid(100,100))
   plot(S_μ_gslib)
-
 end
 
 # ╔═╡ 0bfe2786-2eb9-11eb-3248-335c1647c09f
 begin
-	# compute MSE 
-	μ_mse = mean((μ-μ_gslib).^2)
-	σ²_mse = mean((σ²-σ²_gslib).^2)
-	
-	md"""Plots look the same and mean error for estimation is $μ_mse and for variance is $σ²_mse.
+  # compute MSE 
+  μ_mse = mean((μ-μ_gslib).^2)
+  σ²_mse = mean((σ²-σ²_gslib).^2)
+
+  md"""Plots look the same and mean error for estimation is $μ_mse and for variance is $σ²_mse.
   There are almost zero due to small differences in precision used in the GSLIB output file,
   therefore we can say that we have obtained the same results.
   """
 end
 
 # ╔═╡ Cell order:
+# ╟─20c69a8e-1fa2-11eb-3f1e-ef154de99450
+# ╟─2399f800-1fa2-11eb-185d-53d05516dacf
+# ╠═2c2e7df6-1fa2-11eb-29a8-3b59d382267e
+# ╠═524c65d0-2ea9-11eb-0450-5ff97535406a
+# ╠═524c65d0-2ea9-11eb-0450-5ff97535406b
 # ╠═524c65d0-2ea9-11eb-0450-5ff97535406c
 # ╠═32e5c724-2ea9-11eb-087c-4343d7cd04f1
-# ╠═fc53a6d8-2eab-11eb-23a7-2daac4a2ecf9
+# ╠═8da256e0-2f95-11eb-2e49-77bc738016dc
+# ╠═9ddcfb6e-2f95-11eb-19dd-23fddd5ad1a5
 # ╠═6f03023c-2eac-11eb-3500-8d4560423cdc
 # ╠═6e03f314-2eac-11eb-38c1-4ff4d9bc802d
 # ╠═b50ca8e0-2eb2-11eb-1ad1-ed726e10868c
