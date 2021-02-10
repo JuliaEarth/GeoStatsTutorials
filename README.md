@@ -4,35 +4,23 @@
 
 Tutorials in the form of [Pluto](https://github.com/fonsp/Pluto.jl) notebooks for the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework.
 
-## Notebooks
-
-- Estimation problems
-- Variogram modeling
-- Anisotropic models
-- Directional variograms
-- Variography game
-- Declustered statistics
-- Two-point statistics
-- Gaussian processes
-- Image quilting
-- Cookie-cutter
+# Instructions
 
 To run the notebooks locally, install Pluto:
 
 ```julia
-julia> ]
-pkg> add Pluto
+julia> using Pkg
+julia> Pkg.add("Pluto")
 ```
 
-and launch it from the `notebooks` folder:
+launch it:
 
 ```julia
-using Pluto
-
-cd("notebooks")
-
-Pluto.run()
+julia> using Pluto
+julia> Pluto.run()
 ```
+
+and open any notebook file in the `notebooks` directory.
 
 ## Contributing
 
