@@ -13,8 +13,8 @@ begin
 	using StratiGraphics
 	using SpectralGaussianSimulation
 	
-	solver₁ = SpecGaussSim(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
-	solver₂ = SpecGaussSim(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
+	solver₁ = FFTGS(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
+	solver₂ = FFTGS(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
 	
 	procs = [GeoStatsProcess(solver) for solver in [solver₁, solver₂]];
 end
@@ -76,17 +76,19 @@ begin
 	record = simulate(env, init, nepochs);
 end
 
+# ╔═╡ bb05dc70-6e73-11eb-0e35-25fb65c02fd4
+begin
+	using Plots; gr(format=:png)
+	
+	strata = Strata(record)
+	
+	plot(strata, size=(600,600))
+end
+
 # ╔═╡ b419dba0-6e73-11eb-3dd7-1f5a9141066b
 md"""
 From the record, we can extract the surfaces that make the stratigraphic model. Two options are available for stacking the surfaces, they are :erosional (default) in which case the surfaces are eroded backward in time, and :depositional in which case the surfaces are deposited forward in time:
 """
-
-# ╔═╡ bb05dc70-6e73-11eb-0e35-25fb65c02fd4
-using Plots; gr(format=:png)
-
-strata = Strata(record)
-
-plot(strata, size=(600,600))
 
 # ╔═╡ ccec3a60-6e73-11eb-3bf6-ff8d31deaca2
 md"""
@@ -94,15 +96,17 @@ We can convert the stratigraphic model into a 3D voxel model by specifying a ver
 """
 
 # ╔═╡ e648fed0-6e73-11eb-0907-1d7e194a38c6
-model = voxelize(strata, 250) # 500x500x250 voxel model
-
-xslice = rotr90(model[25,:,:])
-yslice = rotr90(model[:,25,:])
-
-px = heatmap(xslice, title="xline")
-py = heatmap(yslice, title="yline")
-
-plot(px, py, size=(950,200), aspect_ratio=:equal, clim=(0,nepochs))
+begin
+	model = voxelize(strata, 250) # 500x500x250 voxel model
+	
+	xslice = rotr90(model[25,:,:])
+	yslice = rotr90(model[:,25,:])
+	
+	px = heatmap(xslice, title="xline")
+	py = heatmap(yslice, title="yline")
+	
+	plot(px, py, size=(950,200), aspect_ratio=:equal, clim=(0,nepochs))
+end
 
 # ╔═╡ ef7b6d30-6e73-11eb-0427-f7d965c99f8f
 md"""
@@ -117,9 +121,11 @@ problem = SimulationProblem(RegularGrid{Float64}(500,500,250), :strata => Float6
 solver = StratSim(:strata => (environment=env,))
 
 # ╔═╡ 1a4221b0-6e76-11eb-26e1-6da7b3ddffe3
-Random.seed!(2000)
-
-solution = solve(problem, solver)
+begin
+	Random.seed!(2000)
+	
+	solution = solve(problem, solver)
+end
 
 # ╔═╡ 21c77c50-6e76-11eb-0621-b1a96184c856
 for (i,real) in enumerate(solution[:strata])
