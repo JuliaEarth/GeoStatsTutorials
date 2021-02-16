@@ -11,7 +11,7 @@ using Random; Random.seed!(2019); # make sure this tutorial is reproducible
 begin
 	using GeoStats
 	using StratiGraphics
-	using SpectralGaussianSimulation
+	using Plots
 	
 	solver₁ = FFTGS(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
 	solver₂ = FFTGS(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
@@ -76,19 +76,19 @@ begin
 	record = simulate(env, init, nepochs);
 end
 
+# ╔═╡ b419dba0-6e73-11eb-3dd7-1f5a9141066b
+md"""
+From the record, we can extract the surfaces that make the stratigraphic model. Two options are available for stacking the surfaces, they are :erosional (default) in which case the surfaces are eroded backward in time, and :depositional in which case the surfaces are deposited forward in time:
+"""
+
 # ╔═╡ bb05dc70-6e73-11eb-0e35-25fb65c02fd4
 begin
-	using Plots; gr(format=:png)
+	gr(format=:png)
 	
 	strata = Strata(record)
 	
 	plot(strata, size=(600,600))
 end
-
-# ╔═╡ b419dba0-6e73-11eb-3dd7-1f5a9141066b
-md"""
-From the record, we can extract the surfaces that make the stratigraphic model. Two options are available for stacking the surfaces, they are :erosional (default) in which case the surfaces are eroded backward in time, and :depositional in which case the surfaces are deposited forward in time:
-"""
 
 # ╔═╡ ccec3a60-6e73-11eb-3bf6-ff8d31deaca2
 md"""
