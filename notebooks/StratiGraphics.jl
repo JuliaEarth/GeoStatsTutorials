@@ -29,7 +29,7 @@ end
 	using StratiGraphics
 	
 	# default plot settings
-	using Plots; gr(size=(700,400))
+	using Plots; gr(size=(700,400), format=:png)
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2021)
@@ -49,8 +49,8 @@ begin
 	solver₁ = FFTGS(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
 	solver₂ = FFTGS(:land => (variogram=GaussianVariogram(range=100.,sill=3e-2),))
 	
-	procs = [GeoStatsProcess(solver) for solver in [solver₁, solver₂]];
-end
+	procs = [GeoStatsProcess(solver) for solver in [solver₁, solver₂]]
+end;
 
 # ╔═╡ 700cff42-71a3-11eb-0bd0-43662099751a
 md"""
@@ -77,7 +77,7 @@ We create a geological environment with the components defined above:
 """
 
 # ╔═╡ 943ce9c0-71a3-11eb-1f36-c1575df9d64d
-env = Environment(procs, P, ΔT)
+env = Environment(procs, P, ΔT);
 
 # ╔═╡ a39ee6c0-71a3-11eb-37a6-6b10b691816c
 md"""
@@ -90,8 +90,8 @@ begin
 	
 	init = LandState(zeros(500,500)) # each surface is a 500x500 image
 	
-	record = simulate(env, init, nepochs);
-end
+	record = simulate(env, init, nepochs)
+end;
 
 # ╔═╡ ac62b4d0-71a3-11eb-3f18-45756be15fba
 md"""
@@ -100,8 +100,6 @@ From the record, we can extract the surfaces that make the stratigraphic model. 
 
 # ╔═╡ b43481c0-71a3-11eb-358e-6314ea693e5e
 begin
-	gr(format=:png)
-	
 	strata = Strata(record)
 	
 	plot(strata, size=(600,600))
@@ -152,16 +150,24 @@ The solution contains 3 realizations of stratrigraphy, which can be visualized w
 """
 
 # ╔═╡ fb8cea20-71a9-11eb-2a4c-4beb0a2f20d9
-for (i,real) in enumerate(solution[:strata])
-    xslice = rotr90(real[25,:,:])
-    yslice = rotr90(real[:,25,:])
-    
-    px = heatmap(xslice, title="realization $i (xline)", clim=(0,nepochs))
-    py = heatmap(yslice, title="realization $i (yline)", clim=(0,nepochs))
-    
-    p = plot(px, py, aspect_ratio=:equal, size=(950,200))
-    
-    display(p)
+begin
+	plts = []
+	for (i,real) in enumerate(solution)
+		# reshape flat realization to cube
+		r = reshape(real[:strata], 500, 500, 250)
+		
+		# take vertical slices
+	    xslice = rotr90(r[25,:,:])
+	    yslice = rotr90(r[:,25,:])
+	    
+	    px = heatmap(xslice, title="realization $i (xline)", clim=(0,nepochs))
+	    py = heatmap(yslice, title="realization $i (yline)", clim=(0,nepochs))
+	    
+	    plt = plot(px, py, aspect_ratio=:equal, size=(950,200))
+	    
+	    push!(plts, plt)
+	end
+	plot(plts..., layout=(3,1), size=(750, 700))
 end
 
 # ╔═╡ Cell order:
