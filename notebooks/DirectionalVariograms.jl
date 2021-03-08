@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -67,7 +67,7 @@ With this anisotropic model, we generate $3$ realizations using direct Gaussian 
 """
 
 # ╔═╡ 1c49fba0-1e11-11eb-100f-b5319133da0c
-problem = SimulationProblem(RegularGrid(100,100), :Z=>Float64, 3)
+problem = SimulationProblem(CartesianGrid(100,100), :Z=>Float64, 3)
 
 # ╔═╡ 19fcfe60-1e11-11eb-366f-b745e9a95425
 solver  = LUGS(:Z=>(variogram=γ,))

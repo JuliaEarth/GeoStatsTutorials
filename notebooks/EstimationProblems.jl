@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -64,19 +64,19 @@ It doesn't involve variograms, training images, or any tuning parameter. These c
 md"""Next, we define the domain in which the variables will be estimated. One of the many choices possible is the regular grid:"""
 
 # ╔═╡ a30db120-183c-11eb-21ac-b7da79707d4e
-𝒟 = RegularGrid(100, 100)
+𝒟 = CartesianGrid(100, 100)
 
 # ╔═╡ a84dd6b0-183c-11eb-2da2-511cc3f7ec3a
 md"""Notice that by default, a regular grid has zero origin and unit spacing. Alternatively, these parameters can be specified explicitly:"""
 
 # ╔═╡ ae8617e0-183c-11eb-140c-f76c37b4d82c
-RegularGrid((100, 100), (0., 0.), (1., 1.))
+CartesianGrid((100, 100), (0., 0.), (1., 1.))
 
 # ╔═╡ b52c5d20-183c-11eb-1d37-47e6106139b0
 md"""Regular grids are lightweight objects. They do not require any memory space other than the space used to save the input parameters (i.e. dimensions, origin and spacing):"""
 
 # ╔═╡ b6ec83b0-183c-11eb-068a-0d4642430675
-@allocated RegularGrid(10^6, 10^6)
+@allocated CartesianGrid(10^6, 10^6)
 
 # ╔═╡ ba491c30-183c-11eb-2067-51f15b79cba6
 md"""Looping over a regular grid or finding the coordinates of a given location is done analytically for maximum performance."""

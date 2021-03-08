@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -53,7 +53,7 @@ We define an unconditional simulation problem for simplicity, but the same steps
 """
 
 # ╔═╡ 7900db30-1c76-11eb-3ce7-6f3528ef7446
-𝒟 = RegularGrid(100, 100)
+𝒟 = CartesianGrid(100, 100)
 
 # ╔═╡ 7c101700-1c76-11eb-2b3d-a31150a46ee9
 vars = (:facies => Int, :porosity => Float64)
@@ -85,7 +85,7 @@ Image quilting is a good default for training-image-based simulation:
 """
 
 # ╔═╡ ae30e250-1c76-11eb-25e2-6149bdd11c4e
-fsolver = ImgQuilt(:facies => (trainimg=ℐ, tilesize=(30,30)))
+fsolver = IQ(:facies => (trainimg=ℐ, tilesize=(30,30)))
 
 # ╔═╡ 727a67da-4424-439b-b86c-3ab1a0de9f99
 md"""

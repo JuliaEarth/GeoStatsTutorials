@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -91,9 +91,9 @@ Notice that besides suffering from sampling bias, our sampling process leads to 
 
 # ╔═╡ 41cfd2ee-1a10-11eb-2509-911a08eb0e16
 begin
-	ℬ = partition(𝒮, BlockPartitioner(50.,50.))
+	ℬ = partition(𝒮, BlockPartition(50.,50.))
 	p₁ = plot(ℬ, colorbar=false, xlabel="x", ylabel="y")
-	p₂ = bar(nelms.(ℬ), xlabel="block", ylabel="counts", legend=false)
+	p₂ = bar(nelements.(ℬ), xlabel="block", ylabel="counts", legend=false)
 	plot(p₁, p₂)
 end
 
@@ -104,7 +104,7 @@ Samples that are close to each other are redundant, and shouldn't receive the sa
 
 # ╔═╡ 16a8cebb-0427-4cab-8697-be5b8274812e
 begin
-	𝒲 = weight(𝒮, BlockWeighter(50.,50.))
+	𝒲 = weight(𝒮, BlockWeighting(50.,50.))
 	plot(𝒲, c=:Oranges)
 end
 
@@ -151,7 +151,7 @@ We can compare the difference, in volume of Gold, between the two statistics:
 """
 
 # ╔═╡ 4644c09e-1a0d-11eb-3db4-afbc0bbaad23
-𝒱 = volume(boundbox(𝒮))
+𝒱 = measure(boundingbox(𝒮))
 
 # ╔═╡ 096d397d-370c-4d6a-b01b-45cac8981adc
 (μ𝒮 - μℬ) * 𝒱

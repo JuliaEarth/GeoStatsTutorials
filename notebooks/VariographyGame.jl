@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -339,7 +339,7 @@ end
 
 # ╔═╡ 2069cac4-2294-11eb-0f72-ef9c871b6b40
 begin
-	P   = SimulationProblem(sdata, RegularGrid(100,25), :X, 1)
+	P   = SimulationProblem(sdata, CartesianGrid(100,25), :X, 1)
 	
 	LU  = LUGS(:X => (variogram=g,))
 	
@@ -376,7 +376,7 @@ end;
 
 # ╔═╡ 8342770a-22a9-11eb-2f9d-ff9b0b0cb550
 begin
-	problem  = SimulationProblem(RegularGrid(600,300), :X=>Float64, 1)
+	problem  = SimulationProblem(CartesianGrid(600,300), :X=>Float64, 1)
 	
 	solver   = FFTGS(:X => (variogram=γ,))
 	

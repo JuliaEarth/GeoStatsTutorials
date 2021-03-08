@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -56,14 +56,9 @@ md"""
 
 # ╔═╡ 80e60650-1e69-11eb-376a-c1eb22aa1d0a
 begin
-	X = [50. 190. 150. 150.
-		 50. 50.  70.  190.]
+	𝒮 = georef((facies=[1,0,1,1],), [(50.,50.),(190.,50.),(150.,70.),(150.,190.)])
 	
-	z = [1, 0, 1, 1]
-	
-	𝒮 = georef((facies=z,), X)
-	
-	𝒟 = RegularGrid(250, 250)
+	𝒟 = CartesianGrid(250, 250)
 	
 	𝒫₁ = SimulationProblem(𝒮, 𝒟, :facies, 3)
 end
@@ -97,7 +92,7 @@ and define our solver:
 """
 
 # ╔═╡ 4a85e404-23b9-40b5-ad38-210139e1100a
-solver = ImgQuilt(:facies => (trainimg=ℐ, tilesize=(30,30)))
+solver = IQ(:facies => (trainimg=ℐ, tilesize=(30,30)))
 
 # ╔═╡ d859e4a4-2e24-4336-9b3e-e6830b026faf
 md"""

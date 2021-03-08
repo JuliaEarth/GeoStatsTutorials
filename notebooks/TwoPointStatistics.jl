@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -111,7 +111,7 @@ Due to compaction and other physical processes, grains are ellipsoids with major
 
 # ╔═╡ d6c60d3e-51db-4d36-8b20-73e78e8a892b
 begin
-	𝒫 = partition(𝒮, PlanePartitioner((0.,0.,1.)))
+	𝒫 = partition(𝒮, PlanePartition((0.,0.,1.)))
 	
 	plot(𝒫[1])
 	plot!(𝒫[2])

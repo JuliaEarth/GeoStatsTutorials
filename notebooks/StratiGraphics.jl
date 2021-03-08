@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -131,7 +131,7 @@ We can create many such stratigraphic models by defining a simulation problem fo
 """
 
 # ╔═╡ e00676a0-71a3-11eb-1355-4b949a460052
-problem = SimulationProblem(RegularGrid{Float64}(500,500,250), :strata => Float64, 3)
+problem = SimulationProblem(CartesianGrid(500,500,250), :strata => Float64, 3)
 
 # ╔═╡ e79e47d0-71a3-11eb-1fa7-6da8d2f1a167
 md"""

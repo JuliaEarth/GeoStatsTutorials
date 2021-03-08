@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -56,7 +56,7 @@ A variogram object $\gamma$ can be evaluated as an isotropic model $\gamma(h)$ o
 γₑ = GaussianVariogram()
 
 # ╔═╡ 740bd290-19bc-11eb-0b38-a19251f5c4a1
-γₑ([1.,0.], [0.,0.]) ≈ γₑ(1.)
+γₑ(Point(1.,0.), Point(0.,0.)) ≈ γₑ(1.)
 
 # ╔═╡ 1b4bc522-c693-4a94-898c-b444e087f001
 md"""
@@ -67,7 +67,7 @@ If instead of an Euclidean ball, we use an ellipsoid with different semiaxes, th
 γₐ = GaussianVariogram(distance=aniso2distance([2.,1.],[0.]))
 
 # ╔═╡ 6bf0554c-1f87-11eb-1cfb-2354c6e5a851
-γₐ([1.,0.],[0.,0.]) ≠ γₐ([0.,1.],[0.,0.])
+γₐ(Point(1.,0.), Point(0.,0.)) ≠ γₐ(Point(0.,1.), Point(0.,0.))
 
 # ╔═╡ 55647561-3f1b-475a-b457-bcc4dabc223f
 md"""
@@ -93,7 +93,7 @@ and by defining an estimation problem:
 """
 
 # ╔═╡ 4ca2a420-19be-11eb-2761-37be6ab6bdd2
-𝒫 = EstimationProblem(𝒮, RegularGrid(100, 100), :z)
+𝒫 = EstimationProblem(𝒮, CartesianGrid(100, 100), :z)
 
 # ╔═╡ e6c5a087-373d-4d67-9b5e-24b8ce0e70c7
 md"""
