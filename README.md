@@ -1,7 +1,5 @@
 # GeoStatsTutorials
 
-[![gitter](https://img.shields.io/badge/chat-on%20gitter-bc0067.svg)](https://gitter.im/JuliaEarth/GeoStats.jl)
-
 Tutorials in the form of [Pluto](https://github.com/fonsp/Pluto.jl) notebooks for the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework.
 
 # Instructions
