@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -45,7 +45,7 @@ Our data acquisition process suffers from *sampling bias*: most of our samples r
 
 **Problem statement**:
 
-Estimate the remaining amount of Gold in the mine $\mathcal{D}$ from the spatial samples $\mathcal{S}$.
+Estimate the remaining amount of Gold in the mine $\mathcal{D}$ from the geospatial samples $\mathcal{S}$.
 
 *Can we do any better than multiplying the sample average by the volume of the mine?*
 
@@ -60,7 +60,7 @@ begin
 	# rename variable Z to Au
 	𝒟 = georef((Au=ℐ[:Z],), domain(ℐ))
 	
-	# sample from spatial data
+	# sample from geospatial data
 	𝒮 = sample(𝒟, 50, 𝒟[:Au], replace=false)
 	
 	plot(plot(𝒟), plot(𝒮))
@@ -84,7 +84,7 @@ whereas the sample average is much higher:
 
 # ╔═╡ c6d99824-249b-4517-982d-ea951a826dbb
 md"""
-## Spatial declustering
+## Geospatial declustering
 
 Notice that besides suffering from sampling bias, our sampling process leads to samples that are *clustered in space*. To quantify this observation, let's partition $\mathcal{S}$ into blocks $\mathcal{B}_1,\mathcal{B}_2,\ldots,\mathcal{B}_M$ of size $b^2$ and count the number of samples that share a block:
 """
@@ -132,7 +132,7 @@ end
 
 # ╔═╡ 5d87af07-ffba-4e02-ac1b-b168b5d0b304
 md"""
-In case the block size is ommited, GeoStats.jl uses a heuristic to select a "reasonable" block size for the given spatial configuration:
+In case the block size is ommited, GeoStats.jl uses a heuristic to select a "reasonable" block size for the given geospatial configuration:
 """
 
 # ╔═╡ a1c3e8c0-1a0d-11eb-2163-659f72901110
@@ -160,9 +160,9 @@ We can compare the difference, in volume of Gold, between the two statistics:
 md"""
 ### Declustered statistics
 
-The idea of assigning importance weights to samples via spatial declustering is general, and holds for any statistic of interest. Hence, the term *declustered statistics*. To give another example, we can obtain better estimates of any quantile of the Gold distribution by considering the coordinates of the samples:
+The idea of assigning importance weights to samples via geospatial declustering is general, and holds for any statistic of interest. Hence, the term *declustered statistics*. To give another example, we can obtain better estimates of any quantile of the Gold distribution by considering the coordinates of the samples:
 
-#### Non-spatial quantile
+#### Classical quantile
 """
 
 # ╔═╡ d10fd364-dfe2-4011-a96c-d986a3b1e8a1
@@ -170,7 +170,7 @@ quantile(𝒮[:Au], [0.25,0.50,0.75])
 
 # ╔═╡ d52c29ee-535d-4b6f-a277-00e39c1a44cd
 md"""
-#### Spatial quantile
+#### Geospatial quantile
 """
 
 # ╔═╡ e87cbc5e-b1f3-4ee0-90b2-6e83ff2ac862
@@ -180,8 +180,8 @@ quantile(𝒮, :Au, [0.25,0.50,0.75])
 md"""
 ## Remarks
 
-- Spatial samples can be weighted based on their coordinates to improve volumetric estimates
-- Spatial declustering is particularly useful in the presence of sampling bias and correlation
+- Geopatial samples can be weighted based on their coordinates to improve volumetric estimates
+- Geopatial declustering is particularly useful in the presence of sampling bias and correlation
 - GeoStats.jl changes the semantics of statistics such as `mean`, `var` and `quantile`
 """
 

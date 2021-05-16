@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -26,6 +26,7 @@ end
 @everywhere pids begin
 	# packages used in this notebook
 	using GeoStats
+	using CSV
 	
 	# default plot settings
 	using Plots; gr(size=(700,400))
@@ -50,15 +51,15 @@ md"""## Problem definition
 
 An estimation problem in geostatistics is a triplet:
 
-1. Spatial data (i.e. data with coordinates)
-2. Spatial domain (e.g. regular grid, unstructured grid)
+1. Geospatial data (i.e. data with coordinates)
+2. Geospatial domain (e.g. regular grid, unstructured grid)
 3. Target variables (or variables to be estimated)
 
 It doesn't involve variograms, training images, or any tuning parameter. These concepts belong to solvers. Let's make it a concrete example, and create some data. We will use the `readgeotable` utility function to read a CSV from disk and convert it into a spatial data set based on two columns `:x` and `:y` with coordinates:
 """
 
 # ╔═╡ 99512b30-183c-11eb-1810-5b2f9c759229
-𝒮 = readgeotable("data/precipitation.csv", coordnames=(:x,:y))
+𝒮 = georef(CSV.File("data/precipitation.csv"), (:x,:y))
 
 # ╔═╡ 9dbf33b0-183c-11eb-0c73-45f17d57e4cd
 md"""Next, we define the domain in which the variables will be estimated. One of the many choices possible is the regular grid:"""

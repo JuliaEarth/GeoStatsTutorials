@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -51,7 +51,7 @@ md"""
 
 In this tutorial we illustrate how to model variograms manually and with automatic fitting procedures. The workflow consists of two steps:
 
-1. Calculation of empirical variogram from spatial data
+1. Calculation of empirical variogram from geospatial data
 2. Fitting with sliders or with automatic procedures
 
 ## The data

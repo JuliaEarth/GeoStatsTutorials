@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -56,7 +56,10 @@ md"""
 
 # ╔═╡ 80e60650-1e69-11eb-376a-c1eb22aa1d0a
 begin
-	𝒮 = georef((facies=[1,0,1,1],), [(50.,50.),(190.,50.),(150.,70.),(150.,190.)])
+	coords = [(50.,50.),(190.,50.),(150.,70.),(150.,190.)]
+	facies = [1,0,1,1]
+	
+	𝒮 = georef((facies=facies,), coords)
 	
 	𝒟 = CartesianGrid(250, 250)
 	
@@ -80,11 +83,11 @@ Like most other multiple-point simulation solvers, image quilting is parametrize
 We load a famous image from the geostatistics literature:
 """
 
+# ╔═╡ 149fe30a-364f-4f95-9775-21137150af45
+ℐ = geostatsimage("Strebelle")
+
 # ╔═╡ 4e13c550-1e69-11eb-1dd9-7d438c2fad76
-begin
-	ℐ = geostatsimage("Strebelle")
-	plot(ℐ)
-end
+plot(ℐ)
 
 # ╔═╡ f56dcc7b-1d9d-42d3-9fc5-30a09c823b2f
 md"""
@@ -137,6 +140,7 @@ md"""
 # ╟─c39ecc8a-f1f4-4fe7-8a0f-a05807f8aca4
 # ╠═ac17a4ac-5cab-403f-8533-3f294c905a11
 # ╟─6330d732-f002-4552-b6b8-2a03e1e85ac2
+# ╠═149fe30a-364f-4f95-9775-21137150af45
 # ╠═4e13c550-1e69-11eb-1dd9-7d438c2fad76
 # ╟─f56dcc7b-1d9d-42d3-9fc5-30a09c823b2f
 # ╠═4a85e404-23b9-40b5-ad38-210139e1100a

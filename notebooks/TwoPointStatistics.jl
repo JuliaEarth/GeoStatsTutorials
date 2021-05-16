@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -109,14 +109,11 @@ md"""
 Due to compaction and other physical processes, grains are ellipsoids with major and minor axes. We would like to characterize these axes for different sections (or planes) of the Ketton rock. For example, we can consider planes that are normal to the vertical direction:
 """
 
+# ╔═╡ 33f2387e-32e0-4ffb-bd0d-ecee8ed874cc
+𝒫 = partition(𝒮, PlanePartition((0.,0.,1.)))
+
 # ╔═╡ d6c60d3e-51db-4d36-8b20-73e78e8a892b
-begin
-	𝒫 = partition(𝒮, PlanePartition((0.,0.,1.)))
-	
-	plot(𝒫[1])
-	plot!(𝒫[2])
-	plot!(𝒫[3])
-end
+plot(𝒫[1]); plot!(𝒫[2]); plot!(𝒫[3])
 
 # ╔═╡ 2ab80306-b3e1-431a-bdb1-1fe8e379b411
 md"""
@@ -246,6 +243,7 @@ md"""
 # ╟─cf926398-2cf7-409f-b5c1-c0a25955098a
 # ╠═de1c4fec-dcbd-4e93-a939-9297afaf2d97
 # ╟─77965f06-ed4c-4b42-90cf-1c34122f2037
+# ╠═33f2387e-32e0-4ffb-bd0d-ecee8ed874cc
 # ╠═d6c60d3e-51db-4d36-8b20-73e78e8a892b
 # ╟─2ab80306-b3e1-431a-bdb1-1fe8e379b411
 # ╠═bab9a493-2338-444b-9d45-6de34dcf4114

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -153,8 +153,8 @@ The solution contains 3 realizations of stratrigraphy, which can be visualized w
 begin
 	plts = []
 	for (i,real) in enumerate(solution)
-		# reshape flat realization to cube
-		r = reshape(real[:strata], 500, 500, 250)
+		# realization as a 3D array
+		r = asarray(real, :strata)
 		
 		# take vertical slices
 	    xslice = rotr90(r[25,:,:])

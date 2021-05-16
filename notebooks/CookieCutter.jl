@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -73,11 +73,11 @@ md"""
 We define the facies simulation solver based on a training image that has two categories:
 """
 
+# ╔═╡ 705b8f43-66c7-4bcf-9186-4e6ec0004d33
+ℐ = geostatsimage("Strebelle")
+
 # ╔═╡ 29bab540-1c77-11eb-399a-4943758c72ac
-begin
-	ℐ = geostatsimage("Strebelle")
-	plot(ℐ)
-end
+plot(ℐ)
 
 # ╔═╡ 930d162e-5cca-463f-bc00-e39740b4380e
 md"""
@@ -150,6 +150,7 @@ md"""
 # ╠═80196a40-1c76-11eb-0bfb-a7eb71bc08c6
 # ╟─7f1a7b30-d5b4-4630-bdaa-cfd9929a1912
 # ╟─fa5b5983-c6fc-4004-b720-10a3ed6bbfb6
+# ╠═705b8f43-66c7-4bcf-9186-4e6ec0004d33
 # ╠═29bab540-1c77-11eb-399a-4943758c72ac
 # ╟─930d162e-5cca-463f-bc00-e39740b4380e
 # ╠═ae30e250-1c76-11eb-25e2-6149bdd11c4e
