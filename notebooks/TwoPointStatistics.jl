@@ -1,29 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 07589519-3c07-4a44-a3a2-f312213687c1
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ c9fe9d86-1fa2-11eb-25d0-775c4ac2e24f
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ d45ea384-1fa2-11eb-19ef-b1e79b46c9fb
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using GeoStatsImages
@@ -33,7 +23,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2020)
-end
+end;
 
 # ╔═╡ 10ac0071-273b-4c9e-9b97-c94071dc826f
 md"""
@@ -154,7 +144,7 @@ Finally, we estimate the marginal probability $p$ using the proportion of *grain
 """
 
 # ╔═╡ 1561362f-f577-4a12-99ce-281c067356f9
-p = mean(𝒮[:grain])
+p = mean(𝒮.grain)
 
 # ╔═╡ 0d6218b0-1a84-11eb-21ac-29e7bcea5fcb
 γₚ = (1/p) * γₜ
@@ -197,7 +187,7 @@ We can create a function to compute the average grain radius for any set of plan
 function radius(normal)
     γₑ = PlanarVariogram(normal, 𝒮, :grain)
     γₜ = fit(ExponentialVariogram, γₑ)
-    p = mean(𝒮[:grain])
+    p = mean(𝒮.grain)
     range((1/p) * γₜ)
 end
 
@@ -232,7 +222,6 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─07589519-3c07-4a44-a3a2-f312213687c1
 # ╟─c9fe9d86-1fa2-11eb-25d0-775c4ac2e24f
 # ╠═d45ea384-1fa2-11eb-19ef-b1e79b46c9fb
 # ╟─10ac0071-273b-4c9e-9b97-c94071dc826f

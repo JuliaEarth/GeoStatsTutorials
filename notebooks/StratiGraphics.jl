@@ -1,29 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 2b9ebaaa-1f9c-11eb-39ff-a5ee1ecb90ee
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ a47c3e6d-9687-4bb9-b71f-3ee242ede575
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ fc7b9a21-34dd-40ba-9d57-9f785904e307
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using StratiGraphics
@@ -33,7 +23,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2021)
-end
+end;
 
 # ╔═╡ b3fa8609-b27e-4ad2-9836-b7841d6a8db0
 md"""
@@ -163,7 +153,7 @@ begin
 	    px = heatmap(xslice, title="realization $i (xline)", clim=(0,nepochs))
 	    py = heatmap(yslice, title="realization $i (yline)", clim=(0,nepochs))
 	    
-	    plt = plot(px, py, aspect_ratio=:equal, size=(950,200))
+	    plt = plot(px, py, aspectratio=:equal, size=(950,200))
 	    
 	    push!(plts, plt)
 	end
@@ -171,7 +161,6 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╟─2b9ebaaa-1f9c-11eb-39ff-a5ee1ecb90ee
 # ╟─a47c3e6d-9687-4bb9-b71f-3ee242ede575
 # ╠═fc7b9a21-34dd-40ba-9d57-9f785904e307
 # ╟─b3fa8609-b27e-4ad2-9836-b7841d6a8db0

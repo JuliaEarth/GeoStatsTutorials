@@ -1,29 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ a83fe188-1fa4-11eb-1483-2f11ed5794cb
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ 0daa81e3-14be-48b2-a154-470e931468d9
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ b293b968-1fa4-11eb-2011-934f29cff5d8
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using ImageQuilting
@@ -34,7 +24,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(1234)
-end
+end;
 
 # ╔═╡ 3ca175d4-e123-4491-aca1-51b81a6813e5
 md"""
@@ -99,11 +89,7 @@ psolver₀ = LUGS(
 
 # ╔═╡ 9c917870-1c76-11eb-35ea-29dd220e13de
 psolver₁ = LUGS(
-	:porosity => (
-		variogram=SphericalVariogram(
-			range=20., distance=aniso2distance([10.,1.],[0.])
-		),
-	)
+	:porosity => (variogram=SphericalVariogram(MetricBall((200.,20.))),)
 )
 
 # ╔═╡ 7a8cc266-b367-49ff-93fd-aaa709ea850e
@@ -140,7 +126,6 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─a83fe188-1fa4-11eb-1483-2f11ed5794cb
 # ╟─0daa81e3-14be-48b2-a154-470e931468d9
 # ╠═b293b968-1fa4-11eb-2011-934f29cff5d8
 # ╟─3ca175d4-e123-4491-aca1-51b81a6813e5

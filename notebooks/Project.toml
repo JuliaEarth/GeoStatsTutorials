@@ -1,6 +1,6 @@
 [deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
-Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 GeoStats = "dcc97b0b-8ce5-5539-9008-bb190f959ef6"
 GeoStatsImages = "7cd16168-b42c-5e7d-a585-4f59d326662d"
 ImageMagick = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"

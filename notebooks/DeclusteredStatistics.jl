@@ -1,29 +1,18 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ bc351d82-394f-45b6-a78e-88b2e0ff8eaf
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ 7f452f9e-1fa2-11eb-2456-85df17947152
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ 8ced4438-1fa2-11eb-0f34-5d4b6ae2e1d3
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using GeoStatsImages
@@ -33,7 +22,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2020)
-end
+end;
 
 # ╔═╡ 58cbb430-74bc-45b0-b371-46d8db6ea2bf
 md"""
@@ -58,10 +47,10 @@ begin
 	ℐ = geostatsimage("WalkerLakeTruth")
 	
 	# rename variable Z to Au
-	𝒟 = georef((Au=ℐ[:Z],), domain(ℐ))
+	𝒟 = georef((Au=ℐ.Z,), domain(ℐ))
 	
 	# sample from geospatial data
-	𝒮 = sample(𝒟, 50, 𝒟[:Au], replace=false)
+	𝒮 = sample(𝒟, 50, 𝒟.Au, replace=false)
 	
 	plot(plot(𝒟), plot(𝒮))
 end
@@ -72,7 +61,7 @@ The mean value of Gold in the mine is:
 """
 
 # ╔═╡ c5a1c13e-cd05-41bc-a20a-ce1d2912f3b4
-μ𝒟 = mean(𝒟[:Au])
+μ𝒟 = mean(𝒟.Au)
 
 # ╔═╡ 06b89221-c543-45be-baf9-513ccc7a8762
 md"""
@@ -80,7 +69,7 @@ whereas the sample average is much higher:
 """
 
 # ╔═╡ 1f984003-b063-4400-bd26-9d5888bd923a
-μ𝒮 = mean(𝒮[:Au])
+μ𝒮 = mean(𝒮.Au)
 
 # ╔═╡ c6d99824-249b-4517-982d-ea951a826dbb
 md"""
@@ -151,7 +140,7 @@ We can compare the difference, in volume of Gold, between the two statistics:
 """
 
 # ╔═╡ 4644c09e-1a0d-11eb-3db4-afbc0bbaad23
-𝒱 = measure(boundingbox(𝒮))
+𝒱 = area(boundingbox(𝒮))
 
 # ╔═╡ 096d397d-370c-4d6a-b01b-45cac8981adc
 (μ𝒮 - μℬ) * 𝒱
@@ -166,7 +155,7 @@ The idea of assigning importance weights to samples via geospatial declustering 
 """
 
 # ╔═╡ d10fd364-dfe2-4011-a96c-d986a3b1e8a1
-quantile(𝒮[:Au], [0.25,0.50,0.75])
+quantile(𝒮.Au, [0.25,0.50,0.75])
 
 # ╔═╡ d52c29ee-535d-4b6f-a277-00e39c1a44cd
 md"""
@@ -186,7 +175,6 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─bc351d82-394f-45b6-a78e-88b2e0ff8eaf
 # ╟─7f452f9e-1fa2-11eb-2456-85df17947152
 # ╠═8ced4438-1fa2-11eb-0f34-5d4b6ae2e1d3
 # ╟─58cbb430-74bc-45b0-b371-46d8db6ea2bf

@@ -1,29 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 2b9ebaaa-1f9c-11eb-39ff-a5ee1ecb90ee
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ a47c3e6d-9687-4bb9-b71f-3ee242ede575
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ fc7b9a21-34dd-40ba-9d57-9f785904e307
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	
@@ -32,13 +22,13 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2021)
-end
+end;
 
 # ╔═╡ e72d525c-5d3b-4938-9664-e6ea9f055d4b
 md"""
 # Directional variograms
 
-In this tutorial, we demonstrate how empirical variograms can be computed along a specific direction (a.k.a. *directional variograms*). This computation is extremely efficient in GeoStats.jl and can be performed in less than a second with many thousands of spatial data points arranged in arbitrary locations.
+In this tutorial, we demonstrate how empirical variograms can be computed along a specific direction (a.k.a. *directional variograms*). This computation is extremely efficient in GeoStats.jl and can be performed in less than a second with many thousands of geospatial data points arranged in arbitrary locations.
 """
 
 # ╔═╡ b3fa8609-b27e-4ad2-9836-b7841d6a8db0
@@ -47,33 +37,25 @@ md"""
 
 In order to illustrate the functionality, we create synthetic data with predefined anisotropy. Later on in this tutorial, we will pretend that we don't know the anisotropy ratio and will then try to discover it with directional variograms. Here, we generate Gaussian realizations as follows.
 
-First, we consider a base (isotropic) variogram model:
-"""
-
-# ╔═╡ fe880642-1a08-11eb-1a6d-89cd44643007
-GaussianVariogram(range=10.)
-
-# ╔═╡ f33cd7c5-7e57-4962-8e30-2e7155c01484
-md"""
-To convert this isotropic model into an anisotropic model, we use an ellipsoid distance. Given that the range of the variogram is $10$, we will stretch the $x$ axis by a factor of $3$ to produce an effective horizontal range of $30$, and the $y$ axis by a factor of $1$, which will leave the vertical range untouched and equal to $10$. We set the angle of the ellipsoid to $0$ so that the anisotropy is aligned with the coordinate system:
+First, we consider an anisotropic variogram model with ranges ``30`` and ``10`` aligned with the horizontal and vertical directions respectively:
 """
 
 # ╔═╡ 342bc591-d16e-4e73-809c-6fbebdc90f0d
-γ = GaussianVariogram(range=10., distance=aniso2distance([3.,1.], [0.]))
+γ = GaussianVariogram(MetricBall((30.,10.)))
 
 # ╔═╡ c12699ae-6b89-470e-82f7-10db271b7d2e
 md"""
-With this anisotropic model, we generate $3$ realizations using direct Gaussian simulation:
+With this anisotropic model, we generate $3$ realizations using Gaussian simulation:
 """
 
 # ╔═╡ 1c49fba0-1e11-11eb-100f-b5319133da0c
-problem = SimulationProblem(CartesianGrid(100,100), :Z=>Float64, 3)
-
-# ╔═╡ 19fcfe60-1e11-11eb-366f-b745e9a95425
-solver  = LUGS(:Z=>(variogram=γ,))
-
-# ╔═╡ 24a088f0-1e11-11eb-35e6-f17264f4dcba
-solution = solve(problem, solver)
+ensemble = let
+	problem = SimulationProblem(CartesianGrid(100,100), :Z=>Float64, 3)
+	
+	solver  = LUGS(:Z=>(variogram=γ,))
+	
+	solve(problem, solver)
+end
 
 # ╔═╡ 588a7c36-82a2-494d-86aa-f0e322aa88e0
 md"""
@@ -81,15 +63,15 @@ We observe that the "blobs" in the realizations are indeed stretched horizontall
 """
 
 # ╔═╡ c63a6768-e680-451b-89aa-8f433f0afc82
-plot(solution, size=(700,250))
+plot(ensemble, size=(700,250))
 
 # ╔═╡ 217cfa52-3b2a-41b2-b7ab-9f8edbf539e8
 md"""
-We will now use one of these realizations as our spatial data, and will pretend that we don't know the anisotropy ratio of $30 / 10 = 3$:
+We will now use one of these realizations as our geospatial data, and will pretend that we don't know the anisotropy ratio of $30 / 10 = 3$:
 """
 
 # ╔═╡ e6c873d1-784a-4741-aec2-1954f49bef64
-𝒮 = solution[1]
+𝒮 = ensemble[1]
 
 # ╔═╡ ea6cf614-c5b9-4b87-a9e3-3055d73f5266
 md"""
@@ -154,7 +136,7 @@ As can be seen from the plot, the major direction of correlation is horizontal $
 md"""
 ## Remarks
 
-- Directional variograms can be computed very efficiently in GeoStats.jl with any spatial data (e.g. point set data, regular grid data)
+- Directional variograms can be computed very efficiently in GeoStats.jl with any geospatial data (e.g. point set data, grid data)
 
 - They are useful to estimate anisotropy, particularly when a clear image is not available showing "blobs", but only sparse samples
 
@@ -162,18 +144,13 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─2b9ebaaa-1f9c-11eb-39ff-a5ee1ecb90ee
 # ╟─a47c3e6d-9687-4bb9-b71f-3ee242ede575
 # ╠═fc7b9a21-34dd-40ba-9d57-9f785904e307
 # ╟─e72d525c-5d3b-4938-9664-e6ea9f055d4b
 # ╟─b3fa8609-b27e-4ad2-9836-b7841d6a8db0
-# ╠═fe880642-1a08-11eb-1a6d-89cd44643007
-# ╟─f33cd7c5-7e57-4962-8e30-2e7155c01484
 # ╠═342bc591-d16e-4e73-809c-6fbebdc90f0d
 # ╟─c12699ae-6b89-470e-82f7-10db271b7d2e
 # ╠═1c49fba0-1e11-11eb-100f-b5319133da0c
-# ╠═19fcfe60-1e11-11eb-366f-b745e9a95425
-# ╠═24a088f0-1e11-11eb-35e6-f17264f4dcba
 # ╟─588a7c36-82a2-494d-86aa-f0e322aa88e0
 # ╠═c63a6768-e680-451b-89aa-8f433f0afc82
 # ╟─217cfa52-3b2a-41b2-b7ab-9f8edbf539e8

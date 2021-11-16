@@ -1,29 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 1ed84657-f480-4920-8719-d9123ca0d7d4
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ 39aebddc-1fa3-11eb-2f85-813c7473ffab
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ 418e9d24-1fa3-11eb-3ef9-51b170d57b9c
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using ImageQuilting
@@ -34,7 +24,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2000)
-end
+end;
 
 # ╔═╡ 2a154f98-20d8-4277-a582-02dd4a6824a5
 md"""
@@ -57,9 +47,9 @@ md"""
 # ╔═╡ 80e60650-1e69-11eb-376a-c1eb22aa1d0a
 begin
 	coords = [(50.,50.),(190.,50.),(150.,70.),(150.,190.)]
-	facies = [1,0,1,1]
+	table  = (facies=[1,0,1,1],)
 	
-	𝒮 = georef((facies=facies,), coords)
+	𝒮 = georef(table, coords)
 	
 	𝒟 = CartesianGrid(250, 250)
 	
@@ -130,7 +120,6 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─1ed84657-f480-4920-8719-d9123ca0d7d4
 # ╟─39aebddc-1fa3-11eb-2f85-813c7473ffab
 # ╠═418e9d24-1fa3-11eb-3ef9-51b170d57b9c
 # ╟─2a154f98-20d8-4277-a582-02dd4a6824a5

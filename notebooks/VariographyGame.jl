@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
@@ -7,46 +7,39 @@ using InteractiveUtils
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
 end
 
-# ╔═╡ d9955fc8-20e2-11eb-22cf-4133b4a9ae4b
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ 07255bc8-20e3-11eb-1600-07e828113814
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ 0be25d28-20e3-11eb-0c18-99a30c8b9291
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using Statistics
 	using GeoStats
 	using Images
-	using PlutoUI
 	using JSON
 	using Printf
+
+	# interactive elements
+	import PlutoUI
 	
 	# default plot settings
 	using Plots; gr(size=(650,400), ms=1, c=:cividis)
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2020)
-end
+end;
 
 # ╔═╡ 2a67644a-20e9-11eb-02f2-71def5bd3fe5
 md"""
@@ -71,7 +64,7 @@ begin
 	nimgs = length(data)
 	
 	md"""
-	Image ID: $(@bind id Slider(1:nimgs, default=68, show_value=true))
+	Image ID: $(@bind id PlutoUI.Slider(1:nimgs, default=68, show_value=true))
 	
 	Suggested: 68, 810, 487, 214
 	"""
@@ -118,8 +111,8 @@ Imagine that ``X`` and ``Y`` are different layers of the satellite image, and th
 
 # ╔═╡ 7d5dc4fa-20fb-11eb-0d94-c587609d715e
 md"""
-X = $(@bind xselection Select(["red", "green", "blue"], default="red"))
-Y = $(@bind yselection Select(["red", "green", "blue"], default="blue"))
+X = $(@bind xselection PlutoUI.Select(["red", "green", "blue"], default="red"))
+Y = $(@bind yselection PlutoUI.Select(["red", "green", "blue"], default="blue"))
 """
 
 # ╔═╡ c77808d2-20fd-11eb-204b-c9c637194c59
@@ -165,14 +158,14 @@ Lx, Ly = 200, 200;
 
 # ╔═╡ 1755b762-2125-11eb-0399-1f8e5c9042ec
 md"""
-Arrow length: $(@bind h Slider(1:Lx-1, default=Lx÷2))
+Arrow length: $(@bind h PlutoUI.Slider(1:Lx-1, default=Lx÷2))
 """
 
 # ╔═╡ c1b263f4-212a-11eb-15c2-dbf154f593cf
 md"""
 Slide controls:
-$(@bind ix Slider(0:Lx-h-1, default=5))
-$(@bind iy Slider(0:Ly-1, default=Ly-8))
+$(@bind ix PlutoUI.Slider(0:Lx-h-1, default=5))
+$(@bind iy PlutoUI.Slider(0:Ly-1, default=Ly-8))
 """
 
 # ╔═╡ ded79e0c-2124-11eb-180e-7da2f0cef9fe
@@ -215,9 +208,9 @@ Denote the variable at the head of the arrow by ``H`` (either ``X`` or ``Y``), a
 
 # ╔═╡ bcae9fb2-2134-11eb-1f6f-3d3d65209557
 md"""
-H = $(@bind hselection Select(["X","Y"], default="X"))
-T = $(@bind tselection Select(["X","Y"], default="Y"))
-lag = $(@bind lag Slider(0:500,show_value=true))
+H = $(@bind hselection PlutoUI.Select(["X","Y"], default="X"))
+T = $(@bind tselection PlutoUI.Select(["X","Y"], default="Y"))
+lag = $(@bind lag PlutoUI.Slider(0:500,show_value=true))
 """
 
 # ╔═╡ 7ae0aa56-21c7-11eb-2908-cbdbccf37b39
@@ -289,22 +282,22 @@ Now that we have explained what is spatial correlation and how it is connected t
 
 # ╔═╡ 294d57f6-2290-11eb-3383-857c0013d5a9
 md"""
-range = $(@bind r Slider(1:25, default=10, show_value=true))
+range = $(@bind r PlutoUI.Slider(1:25, default=10, show_value=true))
 """
 
 # ╔═╡ c95ece92-228f-11eb-28c5-7571c47dea7a
 md"""
-sill = $(@bind s Slider(0.5:0.1:1, default=0.7, show_value=true))
+sill = $(@bind s PlutoUI.Slider(0.5:0.1:1, default=0.7, show_value=true))
 """
 
 # ╔═╡ 3fd1c186-2290-11eb-2045-3b2196cb0692
 md"""
-nugget = $(@bind n Slider(0:0.05:0.2, default=0.1, show_value=true))
+nugget = $(@bind n PlutoUI.Slider(0:0.05:0.2, default=0.1, show_value=true))
 """
 
 # ╔═╡ 85fe6280-2290-11eb-26ef-618d06d9eb0a
 md"""
-model = $(@bind m Select(["Gaussian","Spherical","Exponential"]))
+model = $(@bind m PlutoUI.Select(["Gaussian","Spherical","Exponential"]))
 """
 
 # ╔═╡ 0ec036f4-2299-11eb-2344-75a39828fde1
@@ -358,10 +351,10 @@ Given an image, can you describe its spatial correlation?
 """
 
 # ╔═╡ ba0ee796-22a7-11eb-1cba-c7ad39e63390
-@bind sampled Button("SAMPLE")
+@bind sampled PlutoUI.Button("SAMPLE")
 
 # ╔═╡ 78218b52-22ab-11eb-2fc9-c53dcf9ff6c7
-md"Show answer: $(@bind answer CheckBox(default=false))"
+md"Show answer: $(@bind answer PlutoUI.CheckBox(default=false))"
 
 # ╔═╡ f36e26de-22a7-11eb-0dd3-11b98dbd1e8c
 begin
@@ -409,7 +402,6 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╟─d9955fc8-20e2-11eb-22cf-4133b4a9ae4b
 # ╟─07255bc8-20e3-11eb-1600-07e828113814
 # ╠═0be25d28-20e3-11eb-0c18-99a30c8b9291
 # ╟─2a67644a-20e9-11eb-02f2-71def5bd3fe5

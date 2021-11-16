@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
@@ -7,32 +7,23 @@ using InteractiveUtils
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
 end
 
-# ╔═╡ a89ee010-1840-11eb-1516-e11f57e7213a
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ d4a40c24-1fa1-11eb-341f-e378b365e915
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ d7d22dfc-1fa1-11eb-08cb-398c0a942070
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using GeoStatsImages
@@ -43,7 +34,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2017)
-end
+end;
 
 # ╔═╡ cb75ca40-1840-11eb-07b6-65ffdf8b1480
 md"""
@@ -61,6 +52,7 @@ Let's consider a simple 2D problem in which properties of a field are sampled at
 # ╔═╡ 206af8a0-184a-11eb-2223-616291fcd27e
 begin
 	𝒟 = geostatsimage("WalkerLake")
+	
 	𝒮 = sample(𝒟, 1000)
 	
 	plot(plot(𝒟), plot(𝒮))
@@ -167,7 +159,6 @@ md"""
 - Both approaches are available in GeoStats.jl, and are useful under different circumstances."""
 
 # ╔═╡ Cell order:
-# ╟─a89ee010-1840-11eb-1516-e11f57e7213a
 # ╟─d4a40c24-1fa1-11eb-341f-e378b365e915
 # ╠═d7d22dfc-1fa1-11eb-08cb-398c0a942070
 # ╟─cb75ca40-1840-11eb-07b6-65ffdf8b1480

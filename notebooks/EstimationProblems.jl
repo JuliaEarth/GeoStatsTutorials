@@ -1,29 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.17.1
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 57e916d0-183c-11eb-207a-91fa96032b25
-begin
-	using Distributed
-	pids = [myid()]
-	
-	md"""
-	Running on processes: $pids
-	
-	Use `pids = addprocs(n)` to run the notebook with `n` parallel processes.
-	"""
-end
-
 # ╔═╡ 8a7dbf80-1fa1-11eb-104a-bf5115d9e6a6
-@everywhere pids begin
-	using Pkg; Pkg.activate(@__DIR__)
-	Pkg.instantiate(); Pkg.precompile()
+begin
+	# instantiate environment
+	using Pkg
+	Pkg.activate(@__DIR__)
+	Pkg.instantiate()
 end
 
 # ╔═╡ 94719c30-183c-11eb-19b7-8da27516dab1
-@everywhere pids begin
+begin
 	# packages used in this notebook
 	using GeoStats
 	using CSV
@@ -33,7 +23,7 @@ end
 	
 	# make sure that results are reproducible
 	using Random; Random.seed!(2020)
-end
+end;
 
 # ╔═╡ 873628b2-183c-11eb-2805-133d253e1e7a
 md"""
@@ -142,7 +132,6 @@ md"""
 """
 
 # ╔═╡ Cell order:
-# ╟─57e916d0-183c-11eb-207a-91fa96032b25
 # ╟─8a7dbf80-1fa1-11eb-104a-bf5115d9e6a6
 # ╠═94719c30-183c-11eb-19b7-8da27516dab1
 # ╟─873628b2-183c-11eb-2805-133d253e1e7a
