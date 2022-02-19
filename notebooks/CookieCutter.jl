@@ -22,7 +22,7 @@ end;
 md"""
 # Cookie-cutter
 
-In this tutorial, we illustrate a simplistic, yet useful procedure for generating geostatistical realizations of the subsurface taking into account various lithology. The procedure known in the literature as "cookie-cutter" [Begg 1992](https://www.onepetro.org/conference-paper/SPE-24698-MS) consists of first simulating a categorical variable (a.k.a. the facies) and then populating each simulated category with a separate simulation solver.
+In this tutorial, we illustrate a simplistic, yet useful procedure for generating geostatistical realizations of the subsurface taking into account various lithologies. The procedure known in the literature as "cookie-cutter" [Begg 1992](https://www.onepetro.org/conference-paper/SPE-24698-MS) consists of first simulating a categorical variable (e.g. facies) and then populating each simulated categorical value with a different simulation solver.
 
 Regardless of the artifacts that the procedure may create, it is very useful for building complex geological models that show strong contrasts (e.g. highly permeable channels within less permeable media). These contrasts are relevant for flow simulation studies and other applications.
 """
@@ -31,7 +31,7 @@ Regardless of the artifacts that the procedure may create, it is very useful for
 md"""
 ## Problem definition
 
-We define an unconditional simulation problem for simplicity, but the same steps apply in the presence of data.
+We define an unconditional simulation problem for simplicity, but the same steps apply in the presence of geospatial data.
 """
 
 # ╔═╡ 7900db30-1c76-11eb-3ce7-6f3528ef7446
@@ -45,14 +45,14 @@ problem = SimulationProblem(𝒟, vars, 3)
 
 # ╔═╡ 7f1a7b30-d5b4-4630-bdaa-cfd9929a1912
 md"""
-In this problem, we will simulate the `facies` variable and use its realizations to guide the simulation of `porosity`.
+In this problem, we will simulate the `facies` variable and use its value to guide the simulation of the `porosity` variable.
 """
 
 # ╔═╡ fa5b5983-c6fc-4004-b720-10a3ed6bbfb6
 md"""
 ## Solving the problem
 
-We define the facies simulation solver based on a training image that has two categories:
+We define the facies simulation solver based on a training image that has two categorical values:
 """
 
 # ╔═╡ 705b8f43-66c7-4bcf-9186-4e6ec0004d33
@@ -86,7 +86,7 @@ psolver₁ = LUGS(
 
 # ╔═╡ 7a8cc266-b367-49ff-93fd-aaa709ea850e
 md"""
-Finally, we create the cookie-cutter procedure by specifying the master (a.k.a. facies) solver, and a solver for each categorical value:
+Finally, we create the cookie-cutter procedure by specifying the master (e.g. facies) solver, and a solver for each categorical value:
 """
 
 # ╔═╡ c4df62a6-dad3-4b3e-8a73-a8af28cf0928
@@ -94,7 +94,7 @@ solver = CookieCutter(fsolver, Dict(0 => psolver₀, 1 => psolver₁))
 
 # ╔═╡ 1ab667e1-e306-4046-af68-2c02e8ebc463
 md"""
-GeoStats.jl will generate the realizations in parallel as usual for each solver, and then it will combine the results into a single solution:
+GeoStats.jl will generate realizations in parallel for each solver as usual, and will then combine the results into a single ensemble:
 """
 
 # ╔═╡ 5943fd0b-eb3c-4242-816e-fa1f1173f8e5
@@ -112,7 +112,7 @@ plot(solution, size=(700,500))
 md"""
 ## Remarks
 
-- The cookie-cutter procedure in GeoStats.jl gives users the ability to create very complex combinations of patterns that are difficult to generate otherwise with a single simulation algorithm.
+- The cookie-cutter procedure in GeoStats.jl gives users the ability to create very complex combinations of patterns that are difficult to generate otherwise with a single simulation solver.
 
 - Any simulation solver adhering to the interface proposed in the framework can be used as a building block for cookie-cutter. This feature opens the door to a whole new set of models, which cannot be generated in other software.
 """
