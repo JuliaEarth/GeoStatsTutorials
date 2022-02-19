@@ -3,6 +3,12 @@
 Tutorials in the form of [Pluto](https://github.com/fonsp/Pluto.jl) notebooks
 for the [GeoStats.jl](https://github.com/juliohm/GeoStats.jl) framework.
 
+<p align="center">
+  <a href="https://www.youtube.com/playlist?list=PLsH4hc788Z1f1e61DN3EV9AhDlpbhhanw">
+    <img src="https://img.youtube.com/vi/yDIK9onnZVw/maxresdefault.jpg">
+  </a>
+</p>
+
 # Instructions
 
 To run the notebooks locally, install Pluto:
