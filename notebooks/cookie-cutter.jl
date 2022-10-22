@@ -56,10 +56,10 @@ We define the facies simulation solver based on a training image that has two ca
 """
 
 # ╔═╡ 705b8f43-66c7-4bcf-9186-4e6ec0004d33
-ℐ = geostatsimage("Strebelle")
+trainimg = geostatsimage("Strebelle")
 
 # ╔═╡ 29bab540-1c77-11eb-399a-4943758c72ac
-plot(ℐ)
+plot(trainimg)
 
 # ╔═╡ 930d162e-5cca-463f-bc00-e39740b4380e
 md"""
@@ -67,7 +67,7 @@ Image quilting is a good default for training-image-based simulation:
 """
 
 # ╔═╡ ae30e250-1c76-11eb-25e2-6149bdd11c4e
-fsolver = IQ(:facies => (trainimg=ℐ, tilesize=(30,30)))
+fsolver = IQ(:facies => (trainimg=trainimg, tilesize=(30,30)))
 
 # ╔═╡ 727a67da-4424-439b-b86c-3ab1a0de9f99
 md"""
