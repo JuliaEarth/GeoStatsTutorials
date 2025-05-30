@@ -211,10 +211,8 @@ end;
 
 # ╔═╡ e8f16554-4fc9-4b1e-9a1c-c752fbf90815
 begin
-	ρₗ = cor(𝒮[:,H], 𝒮[:,T])
 	hscatter(𝒮, H, T, lag=lag,
 			 axis = (
-					 title = "ρ(lag) = $ρₗ",
 					 xlabel = "H = $H",
 					 ylabel = "T = $T"
 				 )
